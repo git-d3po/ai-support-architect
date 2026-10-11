@@ -25,7 +25,7 @@ export function ModelBadge({ model, size = "sm" }: { model: ModelOutcome | null;
   return (
     <span
       className={cn(
-        "inline-flex items-center gap-1.5 whitespace-nowrap rounded border font-medium",
+        "relative inline-flex items-center gap-1.5 whitespace-nowrap rounded border font-medium",
         size === "lg" ? "px-2.5 py-1 text-sm" : "px-1.5 py-0.5 text-xs",
         MODEL_STYLE[m],
       )}
