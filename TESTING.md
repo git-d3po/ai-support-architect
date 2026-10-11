@@ -132,7 +132,7 @@ Evidence types are kept separate: **[auto]** vitest, **[live-backend]** real HTT
 **Secrets/config review:** service-role key only read in `client.server.ts`, loaded inside the `saveAssessment` handler; not present in the client version of `workspace.functions.ts`. `.env` holds only publishable values. `scripts/security/*` read keys from env only, write random passwords to /tmp only, and cleanup is restricted to `qa-2a-*@example.invalid` / `sec-test-*@example.invalid`. Backend security scan: no findings. Dependency scan: 3 high advisories in build-time transitive packages (source-map-js via the Tailwind Vite plugin; js-yaml via TanStack Start) — not used at request time; no upgrade performed, revisit when upstream releases fixes.
 
 **Authentication:**
-- Email/password sign-in, sign-out (private data cleared, redirect to /auth) and sign-in again with data intact [browser].
+- Email/password sign-in through the /auth form with pre-confirmed disposable users [browser]. Sign-out → sign-in again was not re-run in this phase [unverified this phase].
 - Expired/invalid stored session → redirected to /auth, no private data shown [browser].
 - **Email signup with confirmation [unverified — BLOCKED]:** no test inbox available; requires the user to sign up with a real address and click the link. Email verification left enabled.
 - **Google [unverified — BLOCKED]:** the button starts the managed Google sign-in flow (redirect to the OAuth initiate endpoint observed); consent requires an interactive Google account.
