@@ -112,3 +112,37 @@ Script: `scripts/security/authz_test.ts`. It needs the server-only service-role 
 **Browser (demo):** Overview → Assessment report; summary states 15/15, 15,600 of 18,000, 4/6/2/3, 755 gross / 616 net; facts 755 / 139 review / 616. Keyboard Enter on section link jumps to #risks. Report → workflow, → blueprint, → roadmap all correct. 0 non-GET requests. No overflow at 375px.
 **Authenticated (disposable users, deleted):** new org → "No current, complete assessments yet"; after save → 45 net h shown; after volume change → workflow listed under "Excluded from findings", no findings; user B sees only own setup prompt, no A data (report has no id parameter; data comes from owner-scoped getWorkspace).
 **Not tested:** email-confirmation signup, Google sign-in, hand-crafted RPC forgery, screen-reader testing, print/PDF (not implemented).
+
+## Phase 3B — Release gate (2026-10-11)
+
+Evidence types are kept separate: **[auto]** vitest, **[live-backend]** real HTTP requests to the running app/database, **[browser]** Playwright against the running app, **[unverified]** not executed.
+
+**Baseline [auto]:** 77/77 tests pass, unchanged. Northstar 15 workflows, 4/6/2/3, 755/139/616 h, roadmap Now 4 (408) / Next 3 (93) / Later 5 (115) / Human-Led 3 [browser]. No scoring, roadmap, blueprint or report logic changed.
+
+**Forged-request test [live-backend], 32/32 pass.** Scripts: `scripts/security/forge_capture.py` (records real server-function calls from a normal signed-in session) and `forge_rpc_test.py` (replays them tampered). Two disposable `qa-2a-*@example.invalid` users, deleted afterwards (0 remaining).
+- Anonymous calls to all six workspace server functions → Unauthorized; garbage and signature-tampered JWTs rejected.
+- User B with A's workflow ID: detail → null, save → `not_found`, update/delete → "Workflow not found"; A's row unchanged in the database.
+- Forged `model`, `results`, `inputs.priority`, `owner_user_id` (save and createOrganization) → rejected by strict schemas; no rows written.
+- Out-of-range factor and malformed IDs rejected; contradictory input (read-only + irreversibility 4) → `invalid`, no row.
+- Stale `baseRevision` and replay of an already-used revision → `conflict`; legitimate save writes exactly one new revision with server-computed results.
+- Owner direct REST UPDATE/DELETE/INSERT on snapshots → 403; B's direct REST read of A's snapshots → 0 rows.
+- Cross-site request (foreign Origin) → 403 from CSRF middleware.
+- Note: server-function errors return HTTP 200 with a serialized error payload; the test asserts on the payload and on database state, not status codes.
+
+**Secrets/config review:** service-role key only read in `client.server.ts`, loaded inside the `saveAssessment` handler; not present in the client version of `workspace.functions.ts`. `.env` holds only publishable values. `scripts/security/*` read keys from env only, write random passwords to /tmp only, and cleanup is restricted to `qa-2a-*@example.invalid` / `sec-test-*@example.invalid`. Backend security scan: no findings. Dependency scan: 3 high advisories in build-time transitive packages (source-map-js via the Tailwind Vite plugin; js-yaml via TanStack Start) — not used at request time; no upgrade performed, revisit when upstream releases fixes.
+
+**Authentication:**
+- Email/password sign-in through the /auth form with pre-confirmed disposable users [browser]. Sign-out → sign-in again was not re-run in this phase [unverified this phase].
+- Expired/invalid stored session → redirected to /auth, no private data shown [browser].
+- **Email signup with confirmation [unverified — BLOCKED]:** no test inbox available; requires the user to sign up with a real address and click the link. Email verification left enabled.
+- **Google [unverified — BLOCKED]:** the button starts the managed Google sign-in flow (redirect to the OAuth initiate endpoint observed); consent requires an interactive Google account.
+
+**Accessibility [browser, axe-core 4.10 WCAG 2 A/AA + best practice]:** all public pages, /auth and all five private pages now report 0 violations. Fixed: "Insufficient data" badge contrast (darker neutral token); scatter chart now hidden from assistive tech with a text alternative pointing to the existing keyboard list; roadmap workflow headings h4→h3 (heading order); loading/error messages on private pages now `role=status` / `role=alert`. **Screen reader [unverified]:** no assistive technology available.
+
+**Reliability [browser]:** slow backend (4 s) shows "Loading…" then content; unreachable backend shows "Could not load your workspace. Try refreshing." after retries (~7 s); empty org, stale and not-assessed states shown in earlier runs and rerun below.
+
+**Print [browser, Chromium print emulation + PDF]:** report prints without app header or section nav, with org identity, synthetic badge, disclaimers, methodology and readable tables; rows/headings avoid page splits. Collapsed "Contributing workflows" disclosures print collapsed. No PDF export feature exists.
+
+**Final regression [browser]:** demo journey (overview → workflow simulation → roadmap → blueprint → report): unsaved banner shown, reset on reload, zero non-GET requests. Private journey with fresh disposable users: create org → workflow → assess → save → reload (rev 1) → roadmap → stale after edit (excluded from totals) → reassess (rev 2, rev 1 kept) → second user isolated, direct URL → "Workflow not found".
+
+**Release requirements before publishing:** confirm email signup end-to-end; decide whether Google sign-in stays (test it or remove the button); keep email verification on. Scoring weights/thresholds remain uncalibrated heuristics. Not a security certification.

@@ -22,8 +22,8 @@ function WorkspaceBlueprint() {
   const { workflowId } = Route.useParams();
   const fetchDetail = useServerFn(getWorkflowDetail);
   const q = useQuery({ queryKey: ["workflow", workflowId], queryFn: () => fetchDetail({ data: { id: workflowId } }) });
-  if (q.isPending) return <p className="text-sm text-muted-foreground">Loading…</p>;
-  if (q.isError) return <p className="text-sm text-restrict">Could not load this workflow.</p>;
+  if (q.isPending) return <p role="status" className="text-sm text-muted-foreground">Loading…</p>;
+  if (q.isError) return <p role="alert" className="text-sm text-restrict">Could not load this workflow.</p>;
   const w = q.data.workflow;
   if (!w) return <div className="py-16 text-center text-sm text-muted-foreground">Workflow not found. <Link to="/workspace" className="underline">Back to workspace</Link></div>;
   const latest = q.data.latest;
