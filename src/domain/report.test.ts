@@ -89,8 +89,12 @@ describe("executive report", () => {
 
 describe("report next actions match roadmap", () => {
   it("Section E next_action equals buildRoadmap() for every lane", () => {
-    const items = getDemoRows(); const r = buildReport(org, items); const rm = buildRoadmap(items);
+    const items = getDemoRows();
+    const r = buildReport(org, items);
+    const rm = buildRoadmap(items);
     for (const l of ["now", "next", "later"] as const)
-      expect(r.roadmap[l].map((e) => [e.id, e.next_action])).toEqual(rm.entries[l].map((e) => [e.id, e.next_action]));
+      expect(r.roadmap[l].map((e) => [e.id, e.next_action])).toEqual(
+        rm.entries[l].map((e) => [e.id, e.next_action]),
+      );
   });
 });
