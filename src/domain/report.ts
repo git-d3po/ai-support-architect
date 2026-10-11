@@ -217,10 +217,10 @@ export function buildSequence(
   }
 
   const restrictedNow = now.filter((e) => e.restrictions.length > 0);
-  const freeNow = now.filter((e) => !e.restrictions.length);
+  const noRestrictionNow = now.filter((e) => !e.restrictions.length);
   const pilot = lane === "Now"
-    ? [ ...(freeNow.length ? [`Pilot unrestricted Now candidates first (${names(freeNow)}), with human oversight and measured outcomes.`] : []),
-        ...(restrictedNow.length ? [`Pilot restricted candidates (${names(restrictedNow)}) only after their mandatory controls are in place and verified.`] : []) ]
+    ? [ ...(noRestrictionNow.length ? [`For Now candidates without triggered safety restrictions (${names(noRestrictionNow)}), establish and verify required safeguards and confirm relevant dependencies before a limited pilot with human oversight and measured outcomes.`] : []),
+        ...(restrictedNow.length ? [`For Now candidates with triggered safety restrictions (${names(restrictedNow)}), pilot only after all required safeguards are established and verified and relevant dependencies are confirmed.`] : []) ]
     : lane === "Next"
       ? ["No pilot is proposed yet. Next candidates need the preparation above first; re-assess once prerequisites are addressed."]
       : ["No pilot is proposed: all automation candidates are deferred (Later)."];

@@ -39,7 +39,7 @@ function PhaseTable({ rows, links }: { rows: RoadmapEntry[]; links: ReportLinks 
   if (!rows.length) return <p className="text-muted-foreground">No workflows in this phase.</p>;
   return (
     <div className="overflow-x-auto rounded border"><table className="w-full text-sm">
-      <thead className="bg-surface text-left text-xs uppercase tracking-wide text-muted-foreground"><tr>{["Workflow", "Model", "Priority", "Net h/mo", "Key dependency", "Mandatory controls", "Next action"].map((x) => <th key={x} scope="col" className="px-3 py-2 font-medium">{x}</th>)}</tr></thead>
+      <thead className="bg-surface text-left text-xs uppercase tracking-wide text-muted-foreground"><tr>{["Workflow", "Model", "Priority", "Net h/mo", "Key dependency", "Controls & safety restrictions", "Next action"].map((x) => <th key={x} scope="col" className="px-3 py-2 font-medium">{x}</th>)}</tr></thead>
       <tbody className="divide-y">{rows.map((e) => (
         <tr key={e.id} className="align-top">
           <td className="px-3 py-2 font-medium">{links.workflow(e.id, e.name)}<div className="text-[13px] font-normal">{links.blueprint(e.id, "Blueprint")}</div></td>
@@ -47,7 +47,12 @@ function PhaseTable({ rows, links }: { rows: RoadmapEntry[]; links: ReportLinks 
           <td className="num px-3 py-2">{e.priority}</td>
           <td className={cn("num px-3 py-2", (e.net_hours ?? 0) < 0 && "text-restrict")}>{e.net_hours ?? "Unavailable"}</td>
           <td className="min-w-44 px-3 py-2 text-[13px]">{e.dependency ? <>{e.dependency.text} <span className="text-muted-foreground">({e.dependency.source === "restriction" ? "mandatory" : "inferred"})</span></> : "—"}</td>
-          <td className="min-w-44 px-3 py-2 text-[13px]">{e.restrictions.length ? <><span className="font-medium text-restrict">Required — implementation unverified:</span> {e.restrictions.join(", ")}</> : "None mandated"}</td>
+          <td className="min-w-44 px-3 py-2 text-[13px]">
+            <div>{e.required_controls.length > 0 ? `${e.required_controls.length} required control${e.required_controls.length === 1 ? "" : "s"} · status unverified` : "No required controls identified"}</div>
+            {e.restrictions.length > 0 ? (
+              <div className="mt-1 text-restrict">Triggered safety restrictions: {e.restrictions.join(", ")}</div>
+            ) : <div className="mt-1 text-muted-foreground">No triggered safety restrictions</div>}
+          </td>
           <td className="min-w-52 px-3 py-2 text-[13px]">{e.next_action}</td>
         </tr>
       ))}</tbody>
