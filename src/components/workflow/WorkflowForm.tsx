@@ -13,7 +13,18 @@ export function WorkflowForm({ initial, onSubmit, submitLabel, busy, note }: { i
   return (
     <form
       className="space-y-3"
-      onSubmit={(e) => { e.preventDefault(); onSubmit({ ...v, required_systems: systems.split(",").map((s) => s.trim()).filter(Boolean) }); }}
+      onSubmit={(e) => {
+        e.preventDefault();
+        // Emit only form fields: the server schema is strict and rejects extras (e.g. id, attributes_version).
+        onSubmit({
+          name: v.name, category: v.category, description: v.description, current_process: v.current_process,
+          required_systems: systems.split(",").map((s) => s.trim()).filter(Boolean),
+          attrs: {
+            monthly_volume: v.attrs.monthly_volume, aht_minutes: v.attrs.aht_minutes, action_type: v.attrs.action_type,
+            handles_account_access: v.attrs.handles_account_access, accesses_sensitive_data: v.attrs.accesses_sensitive_data,
+          },
+        });
+      }}
     >
       <div className="grid gap-3 sm:grid-cols-2">
         <label className="text-sm"><span className="eyebrow mb-1 block">Name</span><input required maxLength={120} value={v.name} onChange={(e) => setV({ ...v, name: e.target.value })} className="h-8 w-full rounded border bg-card px-2" /></label>
