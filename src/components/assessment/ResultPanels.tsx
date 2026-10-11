@@ -49,7 +49,7 @@ export function RecommendationPanel({ result }: { result: AssessmentResult }) {
         {result.missing.length > 0 && (
           <div className="rounded border border-model-none/30 bg-model-none-soft p-3 text-xs">
             <p className="mb-1 font-medium">Missing evidence ({result.missing.length})</p>
-            <p className="text-muted-foreground">{result.missing.map((m) => m.split(".")[1].replaceAll("_", " ")).join(", ")}</p>
+            <p className="text-muted-foreground">{result.missing.map((m) => (m.split(".")[1] ?? m).replaceAll("_", " ")).join(", ")}</p>
           </div>
         )}
         <div className="grid gap-4 md:grid-cols-2">
@@ -137,7 +137,7 @@ export function ImpactPanel({ result, attrs }: { result: AssessmentResult; attrs
       </div>
       <div className="space-y-4 p-4">
         {!im.available && im.gross_hours == null ? (
-          <p className="text-sm"><span className="font-medium">Estimate unavailable.</span> <span className="text-muted-foreground">Missing: {im.missing.map((m) => m.split(".")[1].replaceAll("_", " ")).join(", ")}</span></p>
+          <p className="text-sm"><span className="font-medium">Estimate unavailable.</span> <span className="text-muted-foreground">Missing: {im.missing.map((m) => (m.split(".")[1] ?? m).replaceAll("_", " ")).join(", ")}</span></p>
         ) : (
           <dl className="grid grid-cols-5 gap-3 text-sm">
             {[
@@ -147,7 +147,7 @@ export function ImpactPanel({ result, attrs }: { result: AssessmentResult; attrs
               ["Review hours", fmt(im.review_hours)],
               ["Net modeled hours", fmt(im.net_hours)],
             ].map(([k, v]) => (
-              <div key={k}><dt className="text-[11px] text-muted-foreground">{k}</dt><dd className={cn("num text-base font-semibold", k.startsWith("Net") && im.unfavorable && "text-restrict")}>{v}</dd></div>
+              <div key={k}><dt className="text-[11px] text-muted-foreground">{k}</dt><dd className={cn("num text-base font-semibold", k?.startsWith("Net") && im.unfavorable && "text-restrict")}>{v}</dd></div>
             ))}
           </dl>
         )}

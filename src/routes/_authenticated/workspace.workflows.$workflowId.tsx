@@ -39,7 +39,7 @@ function Editor({ data }: { data: Awaited<ReturnType<typeof getWorkflowDetail>> 
   const { workflow: w, latest, revisionCount } = data;
   const initial = useMemo<AssessmentInputs>(() => (latest ? structuredClone(latest.inputs) : emptyInputs()), [latest]);
   const [inputs, setInputs] = useState(initial);
-  const [provenance, setProvenance] = useState<"observed" | "estimate">((latest?.provenance?.all as "observed" | "estimate") ?? "estimate");
+  const [provenance, setProvenance] = useState<"observed" | "estimate">((latest?.provenance?.["all"] as "observed" | "estimate") ?? "estimate");
   const [saving, setSaving] = useState(false);
   const [editingDetails, setEditingDetails] = useState(false);
   const save = useServerFn(saveAssessment);

@@ -35,9 +35,9 @@ interface Spec {
 
 function build(s: Spec): DemoWorkflow {
   const factors: AssessmentInputs["factors"] = {};
-  SUITABILITY_FACTORS.forEach((k, i) => (factors[k] = s.S[i]));
-  RISK_FACTORS.forEach((k, i) => (factors[k] = s.R[i]));
-  EFFORT_FACTORS.forEach((k, i) => (factors[k] = s.E[i]));
+  SUITABILITY_FACTORS.forEach((k, i) => (factors[k] = s.S[i] ?? null));
+  RISK_FACTORS.forEach((k, i) => (factors[k] = s.R[i] ?? null));
+  EFFORT_FACTORS.forEach((k, i) => (factors[k] = s.E[i] ?? null));
   return {
     id: s.id, name: s.name, category: s.category, description: s.description, current_process: s.current_process,
     required_systems: s.systems, attrs: s.attrs,
