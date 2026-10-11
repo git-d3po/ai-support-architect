@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as AuthRouteImport } from './routes/auth'
+import { Route as ResetPasswordRouteImport } from './routes/reset-password'
 import { Route as DemoReportRouteImport } from './routes/demo.report'
 import { Route as DemoRoadmapRouteImport } from './routes/demo.roadmap'
 import { Route as AuthenticatedWorkspaceIndexRouteImport } from './routes/_authenticated/workspace.index'
@@ -36,6 +37,11 @@ const AuthenticatedRouteRoute = AuthenticatedRouteRouteImport.update({
 const AuthRoute = AuthRouteImport.update({
   id: '/auth',
   path: '/auth',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ResetPasswordRoute = ResetPasswordRouteImport.update({
+  id: '/reset-password',
+  path: '/reset-password',
   getParentRoute: () => rootRouteImport,
 } as any)
 const DemoReportRoute = DemoReportRouteImport.update({
@@ -103,6 +109,7 @@ const AuthenticatedWorkspaceWorkflowsNewRoute =
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
+  '/reset-password': typeof ResetPasswordRoute
   '/demo/report': typeof DemoReportRoute
   '/demo/roadmap': typeof DemoRoadmapRoute
   '/workspace/report': typeof AuthenticatedWorkspaceReportRoute
@@ -118,6 +125,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
+  '/reset-password': typeof ResetPasswordRoute
   '/demo/report': typeof DemoReportRoute
   '/demo/roadmap': typeof DemoRoadmapRoute
   '/workspace/report': typeof AuthenticatedWorkspaceReportRoute
@@ -135,6 +143,7 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
   '/auth': typeof AuthRoute
+  '/reset-password': typeof ResetPasswordRoute
   '/demo/report': typeof DemoReportRoute
   '/demo/roadmap': typeof DemoRoadmapRoute
   '/_authenticated/workspace/report': typeof AuthenticatedWorkspaceReportRoute
@@ -152,6 +161,7 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/auth'
+    | '/reset-password'
     | '/demo/report'
     | '/demo/roadmap'
     | '/workspace/report'
@@ -167,6 +177,7 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/auth'
+    | '/reset-password'
     | '/demo/report'
     | '/demo/roadmap'
     | '/workspace/report'
@@ -183,6 +194,7 @@ export interface FileRouteTypes {
     | '/'
     | '/_authenticated'
     | '/auth'
+    | '/reset-password'
     | '/demo/report'
     | '/demo/roadmap'
     | '/_authenticated/workspace/report'
@@ -200,6 +212,7 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
   AuthRoute: typeof AuthRoute
+  ResetPasswordRoute: typeof ResetPasswordRoute
   DemoReportRoute: typeof DemoReportRoute
   DemoRoadmapRoute: typeof DemoRoadmapRoute
   DemoBlueprintWorkflowIdRoute: typeof DemoBlueprintWorkflowIdRoute
@@ -228,6 +241,13 @@ declare module '@tanstack/react-router' {
       path: '/auth'
       fullPath: '/auth'
       preLoaderRoute: typeof AuthRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/reset-password': {
+      id: '/reset-password'
+      path: '/reset-password'
+      fullPath: '/reset-password'
+      preLoaderRoute: typeof ResetPasswordRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/demo/report': {
@@ -338,6 +358,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
   AuthRoute: AuthRoute,
+  ResetPasswordRoute: ResetPasswordRoute,
   DemoReportRoute: DemoReportRoute,
   DemoRoadmapRoute: DemoRoadmapRoute,
   DemoBlueprintWorkflowIdRoute: DemoBlueprintWorkflowIdRoute,
