@@ -73,7 +73,7 @@ function Editor({ data }: { data: Awaited<ReturnType<typeof getWorkflowDetail>> 
 
   return (
     <div className="space-y-3">
-      <Link to="/workspace" className="text-xs text-muted-foreground hover:underline">← Workspace</Link>
+      <div className="flex flex-wrap gap-4 text-sm"><Link to="/workspace" className="text-muted-foreground hover:underline">← Workspace</Link><Link to="/workspace/blueprint/$workflowId" params={{ workflowId: w.id }} className="font-medium underline">View implementation blueprint</Link></div>
       <WorkflowDetailView
         meta={w}
         attrs={w.attrs}

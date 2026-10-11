@@ -27,7 +27,7 @@ function DemoRoadmap() {
         <h1 className="text-2xl font-semibold">Implementation roadmap</h1>
         <p className="mt-1 max-w-3xl text-sm text-muted-foreground">Derived from the current assessment of each workflow. Read-only; changes made on a workflow page are not saved and do not affect this roadmap.</p>
       </div>
-      <RoadmapView items={rows} link={(id, c) => <Link to="/demo/workflows/$workflowId" params={{ workflowId: id }} className="hover:underline">{c}</Link>} />
+      <RoadmapView bpLink={(id, c) => <Link to="/demo/blueprint/$workflowId" params={{ workflowId: id }} className="hover:underline">{c}</Link>} items={rows} link={(id, c) => <Link to="/demo/workflows/$workflowId" params={{ workflowId: id }} className="hover:underline">{c}</Link>} />
     </div>
   );
 }

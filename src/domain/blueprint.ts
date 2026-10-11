@@ -106,7 +106,7 @@ export function analyzeDependencies(c: DependencyContext): Dependency[] {
 }
 
 // ---------- Responsibilities ----------
-export interface Responsibilities { deterministic: string[]; ai: string[]; human: string[]; aiNote?: string }
+export interface Responsibilities { deterministic: string[]; ai: string[]; human: string[]; aiNote?: string | undefined }
 
 function responsibilities(model: ModelOutcome, rs: RestrictionCode[], attrs: WorkflowAttributes): Responsibilities {
   const has = (r: RestrictionCode) => rs.includes(r);

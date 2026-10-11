@@ -47,7 +47,7 @@ function DemoWorkflowDetail() {
 
   return (
     <div className="space-y-3">
-      <Link to="/demo/workflows" className="text-xs text-muted-foreground hover:underline">← Workflow inventory</Link>
+      <div className="flex flex-wrap gap-4 text-sm"><Link to="/demo/workflows" className="text-muted-foreground hover:underline">← Workflow inventory</Link><Link to="/demo/blueprint/$workflowId" params={{ workflowId }} className="font-medium underline">View implementation blueprint</Link></div>
       <WorkflowDetailView
         meta={canonical}
         attrs={attrs}
