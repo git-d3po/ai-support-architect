@@ -12,7 +12,9 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as AuthRouteImport } from './routes/auth'
+import { Route as DemoRoadmapRouteImport } from './routes/demo.roadmap'
 import { Route as AuthenticatedWorkspaceIndexRouteImport } from './routes/_authenticated/workspace.index'
+import { Route as AuthenticatedWorkspaceRoadmapRouteImport } from './routes/_authenticated/workspace.roadmap'
 import { Route as DemoWorkflowsIndexRouteImport } from './routes/demo.workflows.index'
 import { Route as DemoWorkflowsWorkflowIdRouteImport } from './routes/demo.workflows.$workflowId'
 import { Route as AuthenticatedWorkspaceWorkflowsWorkflowIdRouteImport } from './routes/_authenticated/workspace.workflows.$workflowId'
@@ -32,10 +34,21 @@ const AuthRoute = AuthRouteImport.update({
   path: '/auth',
   getParentRoute: () => rootRouteImport,
 } as any)
+const DemoRoadmapRoute = DemoRoadmapRouteImport.update({
+  id: '/demo/roadmap',
+  path: '/demo/roadmap',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AuthenticatedWorkspaceIndexRoute =
   AuthenticatedWorkspaceIndexRouteImport.update({
     id: '/workspace/',
     path: '/workspace/',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedWorkspaceRoadmapRoute =
+  AuthenticatedWorkspaceRoadmapRouteImport.update({
+    id: '/workspace/roadmap',
+    path: '/workspace/roadmap',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
 const DemoWorkflowsIndexRoute = DemoWorkflowsIndexRouteImport.update({
@@ -64,6 +77,8 @@ const AuthenticatedWorkspaceWorkflowsNewRoute =
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
+  '/demo/roadmap': typeof DemoRoadmapRoute
+  '/workspace/roadmap': typeof AuthenticatedWorkspaceRoadmapRoute
   '/demo/workflows/$workflowId': typeof DemoWorkflowsWorkflowIdRoute
   '/workspace/': typeof AuthenticatedWorkspaceIndexRoute
   '/demo/workflows/': typeof DemoWorkflowsIndexRoute
@@ -73,6 +88,8 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
+  '/demo/roadmap': typeof DemoRoadmapRoute
+  '/workspace/roadmap': typeof AuthenticatedWorkspaceRoadmapRoute
   '/demo/workflows/$workflowId': typeof DemoWorkflowsWorkflowIdRoute
   '/workspace': typeof AuthenticatedWorkspaceIndexRoute
   '/demo/workflows': typeof DemoWorkflowsIndexRoute
@@ -84,6 +101,8 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
   '/auth': typeof AuthRoute
+  '/demo/roadmap': typeof DemoRoadmapRoute
+  '/_authenticated/workspace/roadmap': typeof AuthenticatedWorkspaceRoadmapRoute
   '/demo/workflows/$workflowId': typeof DemoWorkflowsWorkflowIdRoute
   '/_authenticated/workspace/': typeof AuthenticatedWorkspaceIndexRoute
   '/demo/workflows/': typeof DemoWorkflowsIndexRoute
@@ -95,6 +114,8 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/auth'
+    | '/demo/roadmap'
+    | '/workspace/roadmap'
     | '/demo/workflows/$workflowId'
     | '/workspace/'
     | '/demo/workflows/'
@@ -104,6 +125,8 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/auth'
+    | '/demo/roadmap'
+    | '/workspace/roadmap'
     | '/demo/workflows/$workflowId'
     | '/workspace'
     | '/demo/workflows'
@@ -114,6 +137,8 @@ export interface FileRouteTypes {
     | '/'
     | '/_authenticated'
     | '/auth'
+    | '/demo/roadmap'
+    | '/_authenticated/workspace/roadmap'
     | '/demo/workflows/$workflowId'
     | '/_authenticated/workspace/'
     | '/demo/workflows/'
@@ -125,6 +150,7 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
   AuthRoute: typeof AuthRoute
+  DemoRoadmapRoute: typeof DemoRoadmapRoute
   DemoWorkflowsWorkflowIdRoute: typeof DemoWorkflowsWorkflowIdRoute
   DemoWorkflowsIndexRoute: typeof DemoWorkflowsIndexRoute
 }
@@ -152,11 +178,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/demo/roadmap': {
+      id: '/demo/roadmap'
+      path: '/demo/roadmap'
+      fullPath: '/demo/roadmap'
+      preLoaderRoute: typeof DemoRoadmapRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/_authenticated/workspace/': {
       id: '/_authenticated/workspace/'
       path: '/workspace'
       fullPath: '/workspace/'
       preLoaderRoute: typeof AuthenticatedWorkspaceIndexRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/workspace/roadmap': {
+      id: '/_authenticated/workspace/roadmap'
+      path: '/workspace/roadmap'
+      fullPath: '/workspace/roadmap'
+      preLoaderRoute: typeof AuthenticatedWorkspaceRoadmapRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
     '/demo/workflows/': {
@@ -191,12 +231,14 @@ declare module '@tanstack/react-router' {
 }
 
 interface AuthenticatedRouteRouteChildren {
+  AuthenticatedWorkspaceRoadmapRoute: typeof AuthenticatedWorkspaceRoadmapRoute
   AuthenticatedWorkspaceIndexRoute: typeof AuthenticatedWorkspaceIndexRoute
   AuthenticatedWorkspaceWorkflowsWorkflowIdRoute: typeof AuthenticatedWorkspaceWorkflowsWorkflowIdRoute
   AuthenticatedWorkspaceWorkflowsNewRoute: typeof AuthenticatedWorkspaceWorkflowsNewRoute
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
+  AuthenticatedWorkspaceRoadmapRoute: AuthenticatedWorkspaceRoadmapRoute,
   AuthenticatedWorkspaceIndexRoute: AuthenticatedWorkspaceIndexRoute,
   AuthenticatedWorkspaceWorkflowsWorkflowIdRoute:
     AuthenticatedWorkspaceWorkflowsWorkflowIdRoute,
@@ -211,6 +253,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
   AuthRoute: AuthRoute,
+  DemoRoadmapRoute: DemoRoadmapRoute,
   DemoWorkflowsWorkflowIdRoute: DemoWorkflowsWorkflowIdRoute,
   DemoWorkflowsIndexRoute: DemoWorkflowsIndexRoute,
 }

@@ -36,6 +36,7 @@ function DemoOverview() {
           </p>
           <ol className="list-inside list-decimal text-[13px] text-muted-foreground"><li>Pick a workflow from the inventory or chart.</li><li>Review its recommendation and restrictions.</li><li>Change the assessment inputs to see the result update (not saved).</li></ol>
           <Link to="/demo/workflows" className="inline-flex min-h-10 items-center rounded bg-primary px-3 text-sm font-medium text-primary-foreground">Explore workflows</Link>
+          <Link to="/demo/roadmap" className="ml-2 inline-flex min-h-10 items-center rounded border px-3 text-sm font-medium hover:bg-accent">View roadmap</Link>
         </div>
       </header>
       <OverviewView

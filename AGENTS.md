@@ -16,3 +16,4 @@
 - The public demo is a code fixture (`src/fixtures/northstar.ts`), not database rows, so anon needs no database access.
 - Workflow-level attributes are authoritative for safety restrictions; assessment inputs may only add restrictions.
 - Scoring rules, data model, decisions and test status are documented in SCORING.md, DATA_MODEL.md, DECISIONS.md, TESTING.md — update them with any rule change.
+- Roadmap planning lives in src/domain/roadmap.ts and only consumes assess() output; it must never recompute scores, models, restrictions or impact.
