@@ -14,7 +14,157 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      assessment_snapshots: {
+        Row: {
+          created_at: string
+          id: string
+          inputs: Json
+          owner_user_id: string
+          provenance: Json
+          results: Json
+          revision: number
+          scoring_version: string
+          workflow_attributes: Json
+          workflow_attributes_version: number
+          workflow_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          inputs: Json
+          owner_user_id: string
+          provenance?: Json
+          results: Json
+          revision: number
+          scoring_version: string
+          workflow_attributes: Json
+          workflow_attributes_version: number
+          workflow_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          inputs?: Json
+          owner_user_id?: string
+          provenance?: Json
+          results?: Json
+          revision?: number
+          scoring_version?: string
+          workflow_attributes?: Json
+          workflow_attributes_version?: number
+          workflow_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "assessment_snapshots_workflow_id_fkey"
+            columns: ["workflow_id"]
+            isOneToOne: false
+            referencedRelation: "workflows"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      organizations: {
+        Row: {
+          created_at: string
+          id: string
+          industry: string
+          monthly_ticket_volume: number
+          name: string
+          owner_user_id: string
+          support_agent_count: number
+          support_channels: string[]
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          industry?: string
+          monthly_ticket_volume?: number
+          name: string
+          owner_user_id: string
+          support_agent_count?: number
+          support_channels?: string[]
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          industry?: string
+          monthly_ticket_volume?: number
+          name?: string
+          owner_user_id?: string
+          support_agent_count?: number
+          support_channels?: string[]
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      workflows: {
+        Row: {
+          accesses_sensitive_data: boolean
+          action_type: Database["public"]["Enums"]["action_type"]
+          aht_minutes: number
+          attributes_version: number
+          category: Database["public"]["Enums"]["workflow_category"]
+          created_at: string
+          current_process: string
+          description: string
+          handles_account_access: boolean
+          id: string
+          monthly_volume: number
+          name: string
+          organization_id: string
+          owner_user_id: string
+          required_systems: string[]
+          updated_at: string
+        }
+        Insert: {
+          accesses_sensitive_data?: boolean
+          action_type: Database["public"]["Enums"]["action_type"]
+          aht_minutes: number
+          attributes_version?: number
+          category: Database["public"]["Enums"]["workflow_category"]
+          created_at?: string
+          current_process?: string
+          description?: string
+          handles_account_access?: boolean
+          id?: string
+          monthly_volume: number
+          name: string
+          organization_id: string
+          owner_user_id: string
+          required_systems?: string[]
+          updated_at?: string
+        }
+        Update: {
+          accesses_sensitive_data?: boolean
+          action_type?: Database["public"]["Enums"]["action_type"]
+          aht_minutes?: number
+          attributes_version?: number
+          category?: Database["public"]["Enums"]["workflow_category"]
+          created_at?: string
+          current_process?: string
+          description?: string
+          handles_account_access?: boolean
+          id?: string
+          monthly_volume?: number
+          name?: string
+          organization_id?: string
+          owner_user_id?: string
+          required_systems?: string[]
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "workflows_organization_id_fkey"
+            columns: ["organization_id"]
+            isOneToOne: false
+            referencedRelation: "organizations"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Views: {
       [_ in never]: never
@@ -23,7 +173,17 @@ export type Database = {
       [_ in never]: never
     }
     Enums: {
-      [_ in never]: never
+      action_type:
+        | "read_only"
+        | "reversible_write"
+        | "irreversible_write"
+        | "financial_transaction"
+      workflow_category:
+        | "billing"
+        | "accounts"
+        | "product"
+        | "technical"
+        | "security"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -150,6 +310,20 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      action_type: [
+        "read_only",
+        "reversible_write",
+        "irreversible_write",
+        "financial_transaction",
+      ],
+      workflow_category: [
+        "billing",
+        "accounts",
+        "product",
+        "technical",
+        "security",
+      ],
+    },
   },
 } as const
