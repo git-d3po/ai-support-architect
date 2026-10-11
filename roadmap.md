@@ -16,6 +16,8 @@
 - [x] Phase 2B implementation blueprints + shared dependencies
 
 - [x] Phase 3A executive assessment report
+- [x] Phase 3B release gate
+- [x] Phase 3C release-candidate corrections (report sequence, print, dependency patches)
 
 Phase 2 (later): dependency view, org impact, richer what-if.
 Phase 3 (later): Executive report, a11y pass, demo hardening, PDF export.
