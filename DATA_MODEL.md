@@ -1,6 +1,6 @@
 # Data model
 
-Migrations: `drizzle/migrations/0000_*.sql`, `0001_revoke_default_grants.sql`.
+Migrations: `drizzle/migrations/0000_*.sql`, `0001_revoke_default_grants.sql`, `0002_stale_version_errcode.sql`.
 
 ## Tables
 - **organizations**: owned by `owner_user_id` (plain uuid = auth user id). Constraints: name length and non-negative counts.
