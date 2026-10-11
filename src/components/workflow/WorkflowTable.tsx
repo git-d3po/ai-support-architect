@@ -34,7 +34,7 @@ export function WorkflowTable({ rows, renderName }: { rows: TableRow[]; renderNa
       </div>
       <div className="overflow-x-auto">
         <table className="w-full text-sm">
-          <thead className="bg-surface text-left text-[11px] uppercase tracking-wide text-muted-foreground">
+          <thead className="bg-surface text-left text-xs uppercase tracking-wide text-muted-foreground">
             <tr>
               {["Workflow", "Category", "Volume / mo", "AHT", "Suitability", "Risk", "Effort", "Recommended model", "Priority", "Status"].map((h) => (
                 <th key={h} className="whitespace-nowrap px-3 py-2 font-medium">{h}</th>

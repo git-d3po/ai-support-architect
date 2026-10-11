@@ -7,7 +7,7 @@ export function ContradictionPanel({ errors }: { errors: ValidationError[] }) {
       <ul className="space-y-1 p-4 text-sm">
         {errors.map((e, i) => <li key={i}>• {e.message}</li>)}
       </ul>
-      <p className="border-t px-4 py-2 text-[11px] text-muted-foreground">Inputs must agree with the workflow's authoritative attributes. Resolve them to see a recommendation.</p>
+      <p className="border-t px-4 py-2 text-[13px] text-muted-foreground">Inputs must agree with the workflow's authoritative attributes. Resolve them to see a recommendation.</p>
     </section>
   );
 }

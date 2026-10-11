@@ -15,7 +15,7 @@ function Kpi({ label, value, note }: { label: string; value: ReactNode; note?: s
     <div className="panel p-4">
       <div className="eyebrow">{label}</div>
       <div className="num mt-1 text-2xl font-semibold">{value}</div>
-      {note && <div className="mt-1 text-[11px] text-muted-foreground">{note}</div>}
+      {note && <div className="mt-1 text-[13px] text-muted-foreground">{note}</div>}
     </div>
   );
 }
@@ -39,7 +39,7 @@ export function OverviewView({ items, orgVolume, renderLink }: { items: Portfoli
 
       <div className="grid gap-5 lg:grid-cols-[1fr_1.4fr]">
         <section className="panel">
-          <div className="panel-head"><h2 className="text-sm font-semibold">Operating model distribution</h2><span className="text-[11px] text-muted-foreground">Assessed workflows only</span></div>
+          <div className="panel-head"><h2 className="text-sm font-semibold">Operating model distribution</h2><span className="text-[13px] text-muted-foreground">Assessed workflows only</span></div>
           <div className="space-y-3 p-4">
             <div className="flex h-3 overflow-hidden rounded-full bg-muted">
               {models.map((m) => s.distribution[m] > 0 && <div key={m} className={MODEL_DOT[m]} style={{ width: `${(s.distribution[m] / Math.max(1, s.assessedCount)) * 100}%` }} />)}
@@ -59,7 +59,7 @@ export function OverviewView({ items, orgVolume, renderLink }: { items: Portfoli
         </section>
 
         <section className="panel">
-          <div className="panel-head"><h2 className="text-sm font-semibold">Impact vs implementation effort</h2><span className="text-[11px] text-muted-foreground">Human-Led excluded</span></div>
+          <div className="panel-head"><h2 className="text-sm font-semibold">Impact vs implementation effort</h2><span className="text-[13px] text-muted-foreground">Human-Led excluded</span></div>
           <div className="h-72 p-2">
             {chartData.length === 0 ? <p className="p-4 text-sm text-muted-foreground">No assessed automation-model workflows with impact estimates yet.</p> : (
               <ResponsiveContainer width="100%" height="100%">
@@ -78,14 +78,14 @@ export function OverviewView({ items, orgVolume, renderLink }: { items: Portfoli
               </ResponsiveContainer>
             )}
           </div>
-          <p className="border-t px-4 py-2 text-[11px] text-muted-foreground">X = effort score (weighted gaps). Y = net modeled hours = gross − review. Upper-left = higher modeled value for less effort. Color = recommended model.</p>
+          <p className="border-t px-4 py-2 text-[13px] text-muted-foreground">X = effort score (weighted gaps). Y = net modeled hours = gross − review. Upper-left = higher modeled value for less effort. Color = recommended model.</p>
         </section>
       </div>
 
       <section className="panel">
-        <div className="panel-head"><h2 className="text-sm font-semibold">Top automation candidates</h2><span className="text-[11px] text-muted-foreground">Ranked by priority · gated by model and completeness</span></div>
+        <div className="panel-head"><h2 className="text-sm font-semibold">Top automation candidates</h2><span className="text-[13px] text-muted-foreground">Ranked by priority · gated by model and completeness</span></div>
         <div className="overflow-x-auto"><table className="w-full text-sm">
-          <thead className="bg-surface text-left text-[11px] uppercase tracking-wide text-muted-foreground"><tr>{["#", "Workflow", "Model", "Net h/mo", "Risk", "Effort", "Priority", "Primary restriction"].map((h) => <th key={h} className="px-3 py-2 font-medium">{h}</th>)}</tr></thead>
+          <thead className="bg-surface text-left text-[13px] uppercase tracking-wide text-muted-foreground"><tr>{["#", "Workflow", "Model", "Net h/mo", "Risk", "Effort", "Priority", "Primary restriction"].map((h) => <th key={h} className="px-3 py-2 font-medium">{h}</th>)}</tr></thead>
           <tbody className="divide-y">
             {s.candidates.slice(0, 6).map((c, i) => (
               <tr key={c.id}>
