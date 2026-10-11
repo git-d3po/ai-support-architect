@@ -1,4 +1,4 @@
-import type { AssessmentResult, ModelOutcome, WorkflowAttributes } from "./types";
+import type { AssessmentInputs, AssessmentResult, ModelOutcome, WorkflowAttributes } from "./types";
 import { SCORING_VERSION } from "./types";
 
 export type AssessmentStatus = "not_assessed" | "incomplete" | "stale" | "assessed";
@@ -32,6 +32,10 @@ export interface PortfolioItem {
   attrs: WorkflowAttributes;
   result: AssessmentResult | null;
   status: AssessmentStatus;
+  /** Optional context used by dependency analysis; never used for scoring. */
+  inputs?: AssessmentInputs | null;
+  required_systems?: string[];
+  revision?: number | null;
 }
 
 export interface PortfolioSummary {
