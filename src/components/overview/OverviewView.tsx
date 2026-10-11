@@ -60,7 +60,8 @@ export function OverviewView({ items, orgVolume, renderLink, onSelectWorkflow }:
 
         <section className="panel">
           <div className="panel-head"><h2 className="text-sm font-semibold">Impact vs implementation effort</h2><span className="text-[13px] text-muted-foreground">Human-Led excluded</span></div>
-          <div className="h-72 p-2">
+          {chartData.length > 0 && <p className="sr-only">Scatter chart of {chartData.length} workflows by implementation effort and net modeled hours. The same data is listed under "Workflows shown in this chart" below.</p>}
+          <div className="h-72 p-2" aria-hidden={chartData.length > 0 ? true : undefined}>
             {chartData.length === 0 ? <p className="p-4 text-sm text-muted-foreground">No assessed automation-model workflows with impact estimates yet.</p> : (
               <ResponsiveContainer width="100%" height="100%">
                 <ScatterChart margin={{ top: 10, right: 20, bottom: 24, left: 8 }}>

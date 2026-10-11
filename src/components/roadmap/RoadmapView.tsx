@@ -47,7 +47,7 @@ function EntryCard({ e, link, bpLink }: { e: RoadmapEntry; link: (id: string, c:
   return (
     <li className="space-y-2 p-4">
       <div className="flex flex-wrap items-start justify-between gap-2">
-        <h4 className="text-sm font-semibold">{link(e.id, e.name)}</h4>
+        <h3 className="text-sm font-semibold">{link(e.id, e.name)}</h3>
         <ModelBadge model={e.model} />
       </div>
       <dl className="grid grid-cols-3 gap-2 text-[13px]">

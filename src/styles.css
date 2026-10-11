@@ -98,7 +98,7 @@
   --model-auto-soft: oklch(0.93 0.04 150);
   --model-human: oklch(0.52 0.11 65);
   --model-human-soft: oklch(0.95 0.04 75);
-  --model-none: oklch(0.55 0.01 260);
+  --model-none: oklch(0.47 0.01 260);
   --model-none-soft: oklch(0.94 0.004 260);
   --restrict: oklch(0.5 0.16 25);
   --restrict-soft: oklch(0.95 0.03 25);
