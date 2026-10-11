@@ -94,6 +94,20 @@ function dependencyFor(it: PortfolioItem): Dependency | null {
   return t ? { text: t, source: "inferred" } : null;
 }
 
+export const PHASE_ACTION = {
+  next: "Complete prerequisite design, integration planning and safeguard validation; revisit implementation priority and pilot feasibility before proceeding.",
+  later: "Reassess business value, implementation effort, assumptions and dependencies before reconsidering automation or a pilot.",
+  later_nonpositive: "Revisit the unfavorable modeled impact and its assumptions, including review effort and expected handling-time reduction, before reconsidering automation. Do not initiate a pilot on the current business case.",
+} as const;
+
+/** Next-action precedence for automation lanes: restriction action > phase-aware guidance. Now keeps the engine's model-level step. */
+function phaseAction(section: Lane, net: number, restriction: RestrictionCode | undefined, modelStep: string): string {
+  if (restriction) return RESTRICTION_ACTION[restriction];
+  if (section === "now") return modelStep;
+  if (section === "next") return PHASE_ACTION.next;
+  return net <= 0 ? PHASE_ACTION.later_nonpositive : PHASE_ACTION.later;
+}
+
 export function planEntry(it: PortfolioItem): RoadmapEntry {
   const res = it.result;
   const rs = sortedRestrictions(it);
@@ -142,7 +156,7 @@ export function planEntry(it: PortfolioItem): RoadmapEntry {
     section = "later";
     reason = p < R.nextMinPriority ? `Priority ${p} is below ${R.nextMinPriority}.` : `Effort ${e} ≥ ${R.nextMaxEffortExclusive}; complex implementation.`;
   }
-  const next_action = rs[0] ? RESTRICTION_ACTION[rs[0].code] : res.next_step.text;
+  const next_action = phaseAction(section, net, rs[0]?.code, res.next_step.text);
   return { ...base, section, reason, next_action, priority: p, effort: e, net_hours: net, gross_hours: res.impact.gross_hours };
 }
 
