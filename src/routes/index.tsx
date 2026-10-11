@@ -22,9 +22,9 @@ function DemoOverview() {
   const navigate = useNavigate();
   return (
     <div className="space-y-5">
-      <header className="flex flex-wrap items-end justify-between gap-4">
-        <div>
-          <div className="mb-1 flex items-center gap-2"><span className="eyebrow">Demo organization</span><SyntheticBadge /></div>
+      <header className="flex flex-wrap items-start justify-between gap-x-8 gap-y-4">
+        <div className="min-w-0">
+          <div className="mb-1.5 flex flex-wrap items-center gap-2"><span className="eyebrow">Demo organization</span><SyntheticBadge /></div>
           <h1 className="text-2xl font-semibold">{NORTHSTAR_ORG.name}</h1>
           <p className="mt-1 text-sm text-muted-foreground">
             {NORTHSTAR_ORG.industry} · {NORTHSTAR_ORG.support_agent_count} agents · {NORTHSTAR_ORG.monthly_ticket_volume.toLocaleString()} tickets / month · {NORTHSTAR_ORG.support_channels.join(", ")}
@@ -35,9 +35,11 @@ function DemoOverview() {
             A fictional B2B SaaS support team. Each workflow is scored separately for suitability, risk, effort and modeled impact; safety restrictions override scores. Figures are scenario estimates on synthetic data.
           </p>
           <ol className="list-inside list-decimal text-[13px] text-muted-foreground"><li>Pick a workflow from the inventory or chart.</li><li>Review its recommendation and restrictions.</li><li>Change the assessment inputs to see the result update (not saved).</li></ol>
-          <Link to="/demo/workflows" className="inline-flex min-h-10 items-center rounded bg-primary px-3 text-sm font-medium text-primary-foreground">Explore workflows</Link>
-          <Link to="/demo/roadmap" className="ml-2 inline-flex min-h-10 items-center rounded border px-3 text-sm font-medium hover:bg-accent">View roadmap</Link>
-          <Link to="/demo/report" className="ml-2 inline-flex min-h-10 items-center rounded border px-3 text-sm font-medium hover:bg-accent">Assessment report</Link>
+          <div className="flex flex-wrap gap-2 pt-1">
+            <Link to="/demo/workflows" className="inline-flex min-h-10 items-center rounded bg-primary px-3 text-sm font-medium text-primary-foreground">Explore workflows</Link>
+            <Link to="/demo/roadmap" className="inline-flex min-h-10 items-center rounded border px-3 text-sm font-medium hover:bg-accent">View roadmap</Link>
+            <Link to="/demo/report" className="inline-flex min-h-10 items-center rounded border px-3 text-sm font-medium hover:bg-accent">Assessment report</Link>
+          </div>
         </div>
       </header>
       <OverviewView
