@@ -88,7 +88,7 @@ function Editor({ data }: { data: Awaited<ReturnType<typeof getWorkflowDetail>> 
               <option value="observed">Inputs: observed data</option>
             </select>
             <button onClick={onSave} disabled={saving || errors.length > 0 || (!dirty && status !== "stale" && !!latest)} className="h-8 rounded bg-primary px-3 text-sm font-medium text-primary-foreground disabled:opacity-50">
-              {saving ? "Saving…" : status === "stale" && !dirty ? "Re-assess & save" : "Save assessment"}
+              {saving ? "Saving…" : status === "stale" && !dirty ? "Re-assess & save" : !dirty && !!latest ? "Saved · no changes" : "Save assessment"}
             </button>
           </>
         }

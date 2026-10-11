@@ -47,7 +47,7 @@ export function WorkflowTable({ rows, renderName }: { rows: TableRow[]; renderNa
               const res = ok ? r.result : null;
               return (
                 <tr key={r.id} className="hover:bg-surface/60">
-                  <td className="px-3 py-2 font-medium">{renderName(r)}</td>
+                  <td className="link-subtle px-3 py-2 font-medium">{renderName(r)}</td>
                   <td className="px-3 py-2 text-muted-foreground">{CATEGORY_LABEL[r.category]}</td>
                   <td className="num px-3 py-2 text-right">{r.attrs.monthly_volume.toLocaleString()}</td>
                   <td className="num px-3 py-2 text-right">{r.attrs.aht_minutes}m</td>

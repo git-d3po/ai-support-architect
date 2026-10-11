@@ -23,7 +23,7 @@ function ScoreBar({ label, value, hint, invert }: { label: string; value: number
 
 export function ScoreTriplet({ result }: { result: AssessmentResult }) {
   return (
-    <div className="grid grid-cols-3 gap-5">
+    <div className="grid gap-4 sm:grid-cols-3 sm:gap-5">
       <ScoreBar label="Automation suitability" value={result.scores.suitability} hint="Higher = more suitable" />
       <ScoreBar label="Operational risk" value={result.scores.risk} hint="Higher = more risk" invert />
       <ScoreBar label="Implementation effort" value={result.scores.effort} hint="Higher = more effort" invert />

@@ -84,7 +84,7 @@ export function OverviewView({ items, orgVolume, renderLink, onSelectWorkflow }:
           <details className="border-t px-4 py-2 text-sm">
             <summary className="cursor-pointer py-1 font-medium">Workflows shown in this chart ({chartData.length})</summary>
             <ul className="mt-1 divide-y">{[...chartData].sort((a, b) => b.net - a.net).map((d) => (
-              <li key={d.id} className="flex flex-wrap items-center justify-between gap-2 py-1.5">{renderLink(d.item, d.name)}<span className="flex items-center gap-2"><ModelBadge model={d.model} /><span className="num text-[13px] text-muted-foreground">effort {d.effort} · {d.net} net h</span></span></li>
+              <li key={d.id} className="link-subtle flex flex-wrap items-center justify-between gap-2 py-1.5">{renderLink(d.item, d.name)}<span className="flex items-center gap-2"><ModelBadge model={d.model} /><span className="num text-[13px] text-muted-foreground">effort {d.effort} · {d.net} net h</span></span></li>
             ))}</ul>
           </details>
         </section>
@@ -98,7 +98,7 @@ export function OverviewView({ items, orgVolume, renderLink, onSelectWorkflow }:
             {s.candidates.slice(0, 6).map((c, i) => (
               <tr key={c.id}>
                 <td className="num px-3 py-2 text-muted-foreground">{i + 1}</td>
-                <td className="px-3 py-2 font-medium">{renderLink(c, c.name)}</td>
+                <td className="link-subtle px-3 py-2 font-medium">{renderLink(c, c.name)}</td>
                 <td className="px-3 py-2"><ModelBadge model={c.result!.model} /></td>
                 <td className={cn("num px-3 py-2", c.result!.impact.unfavorable && "text-restrict")}>{c.result!.impact.net_hours}</td>
                 <td className="num px-3 py-2">{c.result!.scores.risk}</td>
