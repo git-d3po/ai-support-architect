@@ -19,3 +19,6 @@
 The roadmap is recomputed from current workflows and latest snapshots on each view; no roadmap table, no migration. It therefore always follows assessment changes, staleness and deletions, and cannot diverge from authoritative results.
 Implementation priority ≠ deployment readiness: "Now" means investigate first, not approved. Controls carry no completion state because the app holds no evidence of implementation.
 Human-Led workflows sit in a separate section and never enter phase lanes; restricted candidates stay ranked but are labelled "Conditional on required controls" with a restriction-driven next action.
+
+## Implementation Blueprints are derived (Phase 2B)
+Blueprints and shared dependencies are recomputed from the authoritative assessment on each view; nothing is persisted, so they cannot drift from saved results and need no migration. Every dependency carries a provenance (mandatory / assessment-derived / planning inference / unspecified) so inferred guidance is never mistaken for evidence. The Blueprint states what to design and evaluate; it is not launch certification, has no readiness score and no completion tracking. Tradeoff: provenance thresholds are rule-based and uncalibrated, documented in IMPLEMENTATION_DESIGN.md. Blueprint routes are `/demo/blueprint/$id` and `/workspace/blueprint/$id` so existing workflow-detail routes stay leaf pages.
