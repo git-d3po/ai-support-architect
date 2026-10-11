@@ -1,6 +1,7 @@
 import { Link, useNavigate } from "@tanstack/react-router";
 import { useQueryClient } from "@tanstack/react-query";
 import { useAuth } from "@/lib/auth-context";
+import { LogoMark } from "@/components/app/LogoMark";
 import { supabase } from "@/integrations/supabase/client";
 
 const linkCls = "rounded px-2.5 py-1.5 text-sm text-muted-foreground hover:bg-accent hover:text-foreground";
@@ -20,7 +21,7 @@ export function AppHeader() {
     <header className="sticky top-0 z-20 border-b bg-card/95 backdrop-blur">
       <div className="mx-auto flex min-h-12 max-w-[1400px] flex-wrap items-center gap-x-6 gap-y-1 px-4 py-2 sm:px-6">
         <Link to="/" className="flex items-center gap-2 whitespace-nowrap text-sm font-semibold">
-          <span className="grid size-6 place-items-center rounded bg-primary text-[10px] font-bold text-primary-foreground">SA</span>
+          <LogoMark className="size-6 shrink-0" />
           Support Automation Architect
         </Link>
         <nav className="order-3 flex w-full items-center gap-1 overflow-x-auto md:order-none md:w-auto" aria-label="Primary">
