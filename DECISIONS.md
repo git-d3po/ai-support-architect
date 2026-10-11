@@ -14,3 +14,8 @@
 12. **Stale-version conflicts use SQLSTATE P0409, not 40001.** The Data API auto-retries serialization failures (40001), so using it made stale saves hang.
 13. **Concurrency contract: first writer wins.** A second save on the same base revision gets a conflict and must reload. Ordering by unique revision is always deterministic.
 14. **Security verification uses throwaway pre-confirmed users** created with admin tooling (`scripts/security/authz_test.ts`), so the real sign-up and confirmation flow stays unchanged and no test bypass exists in the app.
+
+## Roadmap is derived, not persisted (Phase 2A)
+The roadmap is recomputed from current workflows and latest snapshots on each view; no roadmap table, no migration. It therefore always follows assessment changes, staleness and deletions, and cannot diverge from authoritative results.
+Implementation priority ≠ deployment readiness: "Now" means investigate first, not approved. Controls carry no completion state because the app holds no evidence of implementation.
+Human-Led workflows sit in a separate section and never enter phase lanes; restricted candidates stay ranked but are labelled "Conditional on required controls" with a restriction-driven next action.

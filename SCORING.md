@@ -73,3 +73,8 @@ ImpactIdx = clamp(net / 150 × 100, 0, 100)
 ControlReadiness = 100 × (policy_clarity + (4 − data_gap) + (4 − process_gap)) / 12
 ```
 Suitability is excluded from the score because it already gates the model. The priority never changes the model.
+
+## Roadmap phase assignment (roadmap-1, separate from scoring v1)
+Implemented in `src/domain/roadmap.ts`. Consumes engine output only; scoring version unchanged.
+Precedence: (1) not current (stale / incomplete / not assessed) → Needs reassessment, no priority or impact shown; (2) model Human-Led → Human-Led section; (3) not an automation candidate (insufficient data / impact unavailable) → Needs reassessment; (4) net ≤ 0 → Later; (5) priority ≥ 70 and effort < 40 → Now; (6) priority ≥ 50 and effort < 60 → Next; (7) otherwise Later.
+Key dependency: from the highest-precedence triggered restriction (documented); otherwise inferred from effort ≥ 60 or the operating model, and labelled "inferred, not documented". Required controls are the engine's `controls`, always shown as status unverified. Next action: restriction-specific action if restricted, else the model's next step.

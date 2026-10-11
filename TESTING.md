@@ -74,3 +74,8 @@ Script: `scripts/security/authz_test.ts`. It needs the server-only service-role 
 - Browser (Playwright, demo): chart point click → /demo/workflows/password-reset; keyboard Enter on chart list link → correct workflow; no horizontal overflow at 1280/820/375; phone score buttons 61×44px, arrow keys move selection, aria-label includes anchor text; demo what-if resets after reload.
 - Required-controls column renders engine `restrictions` and `controls` counts only.
 - Not rerun: authenticated save/stale flow and two-user security script (no session in this pass). No screen-reader testing; no formal WCAG claim.
+
+## Phase 2A roadmap (2026-10-11)
+- Vitest: 56/56 passed (45 existing + 11 new in `src/domain/roadmap.test.ts`: Now placement, Human-Led exclusion, restrictions/controls visibility, stale exclusion, incomplete no fabricated values, change updates phase, deletion, determinism, total reconciliation 755/616, negative net, phase boundaries).
+- Browser (demo): Overview "View roadmap" → /demo/roadmap; Now 4 (408 net h), Next 3 (93), Later 5 (115) = 616; Human-Led 3; keyboard Enter on a Now link → workflow detail; no horizontal overflow at 375px.
+- Not executed: authenticated smoke test and private roadmap browser check (no signed-in session minted this pass). Private roadmap reuses `getWorkspace` (owner-scoped RLS), so test 13 relies on prior evidence, not a rerun. Test 12 (demo non-persistence) covered by Phase 1.5 reload check, not rerun.
