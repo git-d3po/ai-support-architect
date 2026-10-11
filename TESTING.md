@@ -170,3 +170,15 @@ Audit [browser] at 1440 / 768 / 390 px on overview, inventory, workflow detail, 
 4. **P1 — disabled save button gave no reason.** When nothing has changed since the saved revision it now reads "Saved · no changes". No persistence logic changed.
 Deferred: per-metric tooltips (existing inline rule/formula text already explains priority and net hours); empty roadmap lanes already say "No workflows in this phase".
 Regression: 87/87 [auto]; Northstar demo roadmap Now 4/408, Next 3/93, Later 5/115, Human-Led 3, simulation unsaved and reset, zero writes [browser]; axe WCAG A/AA 0 violations on 4 pages at 390 px; keyboard focus on workflow links shows outline and underline. Screen reader still unverified. Private-page visual check of the save label not re-run in the browser (logic-only change).
+
+## Accepted v1.0.0 portfolio checkpoint (2026-10-11)
+
+- **Software snapshot:** `31985682460e5a136a262087dbf340d4e2ab3cf7`.
+- **[verified GitHub CI]** [106/106 tests passed across ten files](https://github.com/git-d3po/ai-support-architect/actions/runs/38168651593), on this exact commit.
+- **[Lovable verification report]** `bun run build` exit code 0 and typecheck passes. The GitHub workflow checks tests, not production build or lint.
+- **[Lovable baseline comparison]** Full ESLint remains non-green: 1,570 errors and 9 warnings, compared with a 1,571-error/9-warning baseline before the final phase-aware correction. All 14 newly introduced Prettier-style violations were corrected, plus one pre-existing formatting violation.
+- **[user-supplied published screenshots]** Current Overview, Workflow inventory, Assessment, Blueprint, Roadmap, and Executive Report (Sections A–I) show the updated phase-aware actions, preservation of restriction precedence, and canonical Northstar figures.
+- **[historical tests]** Backend authorization 38/38, forged request tests 32/32, prior axe checks, and historical browser/printing runs are described earlier; they were not all repeated at the final code checkpoint.
+- **[not independently established]** Every final browser link, full latest mobile and authenticated behavior, real screen-reader operation, externally calibrated impact, formal audit, or signed live build source hash.
+
+See [Release evidence](docs/RELEASE_EVIDENCE.md) and [Known limitations](docs/KNOWN_LIMITATIONS.md).

@@ -1,0 +1,41 @@
+name: Freeze v1.0.0
+
+on:
+  push:
+    branches: [main]
+    paths: ['.github/workflows/freeze-v1.yml']
+
+permissions:
+  contents: write
+
+jobs:
+  freeze:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Tag the accepted software commit without moving existing tags
+        shell: bash
+        run: |
+          set -euo pipefail
+          target=31985682460e5a136a262087dbf340d4e2ab3cf7
+          git cat-file -e "${target}^{commit}"
+          git merge-base --is-ancestor "$target" HEAD
+          if git show-ref --verify --quiet refs/tags/v1.0.0; then
+            test "$(git rev-parse v1.0.0^{commit})" = "$target"
+          else
+            git config user.name github-actions\[bot\]
+            git config user.email 41898282+github-actions\[bot\]@users.noreply.github.com
+            git tag -a v1.0.0 "$target" -m 'Accepted v1.0.0 software snapshot'
+            git push origin refs/tags/v1.0.0
+          fi
+      - name: Publish GitHub release notes
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          if ! gh release view v1.0.0 >/dev/null 2>&1; then
+            gh release create v1.0.0 --verify-tag --title 'AI Support Automation Architect v1.0.0' --notes-file docs/releases/v1.0.0.md
+          fi
