@@ -1,4 +1,15 @@
-# Release candidate checklist (v1, 2026-10-11)
+# V1 accepted portfolio checkpoint (2026-10-11)
+
+**Public demo:** https://ai-support-architect.lovable.app/  
+**Frozen source:** `31985682460e5a136a262087dbf340d4e2ab3cf7` — tag `v1.0.0` must resolve to this exact commit, not later documentation.  
+**Automated CI:** 106/106 tests passed ([GitHub Actions](https://github.com/git-d3po/ai-support-architect/actions/runs/38168651593)).  
+**Production build and typecheck:** pass as reported by Lovable final verification.  
+**Full lint:** FAIL — 1,570 historical errors, 9 warnings, and no net new lint regressions.  
+**Published app:** owner-supplied desktop screenshots show current phase-aware Roadmap and matching Executive Report. Not every signed-in, mobile, navigation or print path was independently rerun.
+
+For a precise qualification matrix see [Release evidence](docs/RELEASE_EVIDENCE.md), [Known limitations](docs/KNOWN_LIMITATIONS.md) and [Case study](docs/CASE_STUDY.md).
+
+## Original historical release-candidate checklist (retained for provenance)
 
 Evidence key: [auto] automated test · [live] live backend request test · [browser] Playwright on running app · [user] user-reported manual test · [unverified]
 
