@@ -6,7 +6,6 @@ import { validateConsistency } from "@/domain/validation";
 import { WorkflowDetailView } from "@/components/workflow/WorkflowDetailView";
 import { AssessmentEditor, CompletenessMeter, WorkflowAttributesEditor } from "@/components/assessment/AssessmentEditor";
 import { SyntheticBadge } from "@/components/assessment/ModelBadge";
-import { ContradictionPanel } from "@/components/assessment/ContradictionPanel";
 import { MODEL_LABEL } from "@/domain/types";
 
 export const Route = createFileRoute("/demo/workflows/$workflowId")({
