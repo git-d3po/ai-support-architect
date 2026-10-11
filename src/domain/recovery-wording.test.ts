@@ -38,7 +38,7 @@ describe("pilot next steps require safeguards first", () => {
   it("assist and bounded pilot wording", async () => {
     const { summarize } = await import("./portfolio");
     const { getNorthstarWorkflows } = await import("@/fixtures/northstar");
-    const texts = getNorthstarWorkflows().map((w) => assess(w.attrs, w.inputs)).flatMap((r) => r.next_steps ?? []).map((s: { code: string; text: string }) => s);
+    const texts = getNorthstarWorkflows().map((w) => assess(w.attrs, w.inputs)).map((r) => r.next_step);
     for (const code of ["N_PILOT_ASSIST", "N_BOUNDED_PILOT"]) {
       const s = texts.find((t) => t.code === code);
       expect(s?.text).toMatch(/^After the implementing team establishes and verifies required safeguards, /);
