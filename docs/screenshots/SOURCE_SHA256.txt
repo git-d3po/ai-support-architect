@@ -1,0 +1,12 @@
+# Original v1 owner-supplied PNG SHA-256; files must be uploaded byte-for-byte, no generation or editing.
+2df1838ef2a8379d2ea832b0570659ccd6046217497982249d8c088d7279d338  v1-01-overview.png
+ec007fa2dec86401f15e6e6c2b4829db22f04148e72fc28b3ac04a9aaa7cb89a  v1-02-workflow-inventory.png
+d6a4e5997e103ace4a71f2c438bd674df75782ee04d61ea8efaa4a036dab6837  v1-03-password-reset-assessment.png
+1450c6fd4f53633c53017e1beffc888d2062f1acd2906e1267cf55ab1fe08bb5  v1-04-password-reset-blueprint.png
+0f46498ad0ea84b36521897fc48eae61ed370d4b486a3d3b6b7ddcf1f5caf888  v1-05-implementation-roadmap.png
+f5b9ef9df1022f0569613a091b66119d2b67b8aae4118a7b0dcf76628cab0a27  v1-06-report-summary.png
+a6052ce02f6deb6a8e8bd00a43fc52d5c511e26625720dd6907a37cbd0507ff7  v1-07-report-impact-and-now.png
+df8f7edc1f96df48eb6b04f4a8759662862faf2a3b360f43466f3e96f63c21bf  v1-08-report-next-and-later.png
+1d255572072805826bea3bac62eeb5eda59720be54e778ec66fdcefd76dc8149  v1-09-report-controls-and-dependencies.png
+dc8219ad2860b595da8da2f62c49850385978fd252ffa659921b5ef03df9b4f7  v1-10-report-implementation-sequence.png
+9d5f328d868956553a3f147439e121b24ec39cdfbaf5fdc840ac55597dafd0e2  v1-11-report-pilot-and-limitations.png

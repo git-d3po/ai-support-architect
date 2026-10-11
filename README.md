@@ -16,7 +16,19 @@ The product is built with Lovable and uses a deterministic, versioned TypeScript
 
 A good walkthrough starts with the synthetic portfolio, opens **Password reset** to understand the deterministic-versus-AI boundary for account access, examines its proposed Blueprint, then compares **Now / Next / Later** actions and the report's Sections E–I.
 
-**Engineering documentation:** [Architecture and case study](docs/CASE_STUDY.md) · [Release evidence](docs/RELEASE_EVIDENCE.md) · [Known limitations](docs/KNOWN_LIMITATIONS.md) · [Release notes](docs/releases/v1.0.0.md).
+**Engineering documentation:** [Architecture and case study](docs/CASE_STUDY.md) · [Release evidence](docs/RELEASE_EVIDENCE.md) · [Known limitations](docs/KNOWN_LIMITATIONS.md) · [Release notes](docs/releases/v1.0.0.md) · [Screenshot capture manifest](docs/screenshots/README.md).
+
+### Screenshot walkthrough
+
+The eleven images in this portfolio are **fresh, original, unaltered screenshots supplied by the project owner**. They are never generated, stitched, blended, retouched, or reconstructed. The Executive Report appears across separate sequential browser captures rather than a misleading composite.
+
+**[Browse the complete 11-image walkthrough](docs/screenshots/README.md)** · [Live synthetic demo](https://ai-support-architect.lovable.app/)
+
+[![Northstar Cloud synthetic portfolio overview](docs/screenshots/v1-01-overview.png)](docs/screenshots/v1-01-overview.png)
+
+[Workflow inventory](docs/screenshots/v1-02-workflow-inventory.png) · [Password reset assessment](docs/screenshots/v1-03-password-reset-assessment.png) · [Blueprint](docs/screenshots/v1-04-password-reset-blueprint.png) · [Roadmap](docs/screenshots/v1-05-implementation-roadmap.png) · [Report summary](docs/screenshots/v1-06-report-summary.png) · [Report priorities: first view](docs/screenshots/v1-07-report-impact-and-now.png) · [Report priorities: continuation](docs/screenshots/v1-08-report-next-and-later.png)
+
+The [gallery](docs/screenshots/README.md) also includes safety controls, dependencies, implementation sequencing and limitations. The images represent synthetic decision-support examples, not real production outcomes.
 
 ## Product workflow
 
