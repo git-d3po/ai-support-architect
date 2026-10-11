@@ -162,7 +162,7 @@ export function decide(
   if (detOk) {
     drivers.push({ code: "D_STANDARDIZED", text: `High suitability (${s}) with low language reasoning (${lang}/4).` });
     drivers.push({ code: "D_LOW_RISK", text: `Risk ${r} below ${T.deterministicMaxRiskExclusive}.` });
-    if (r2) drivers.push({ code: "D_VERIFIED_RECOVERY", text: "Verified recovery control declared." });
+    if (r2) drivers.push({ code: "D_VERIFIED_RECOVERY", text: "Recovery control marked present in assessment inputs; not independently verified." });
     if (s >= T.autonomousSuitability) limits.push({ code: "L_NO_GENAI_NEEDED", text: "Generative AI is not needed: rules suffice." });
     return { model: "deterministic", rule: "4_deterministic", drivers, limits };
   }

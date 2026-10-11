@@ -50,7 +50,7 @@ export function BlueprintView({ bp, result, name, description, links }: { bp: Bl
         <>
           <p role="note" className="rounded border border-dashed px-4 py-2.5 text-sm">
             <span className="font-semibold">Proposed future-state design — not an implemented or validated automation.</span>{" "}
-            Listed controls and dependencies carry no completion status; none are known to exist.
+            Assessment inputs may declare some controls present, but the application does not independently verify their existence, effectiveness or completion. The implementing team must validate every required safeguard and dependency before any deployment.
           </p>
 
           <Section id="bp-model" title="A. Proposed operating model">

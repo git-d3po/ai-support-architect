@@ -276,7 +276,7 @@ export function buildBlueprint(b: BlueprintInput): Blueprint {
   const assumptions = [
     `Volume ${b.attrs.monthly_volume.toLocaleString("en-US")}/month and handling time ${b.attrs.aht_minutes} min as entered.`,
     res.impact.available ? "Impact figures are scenario estimates from the entered assumptions, not observed savings." : "Impact estimate unavailable.",
-    "No evidence is held that any listed control, integration or policy already exists.",
+    "Controls, integrations or policies marked present in assessment inputs are declarations only; the application has not independently verified that they exist or work.",
   ];
   return {
     current: true,

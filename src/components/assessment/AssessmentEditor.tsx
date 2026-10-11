@@ -116,7 +116,7 @@ export function AssessmentEditor({
         {attrs.handles_account_access && (
           <TriState
             label="Verified recovery control in place"
-            help="E.g. email/MFA token verification. Required for any automation of account access."
+            help="E.g. email/MFA token verification. Required for any automation of account access. Your answer is a declaration; the app does not verify it."
             value={inputs.attributes.verified_recovery_control}
             onChange={(x) => setAttr("verified_recovery_control", x)}
             disabled={disabled}
