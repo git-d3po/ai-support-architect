@@ -18,3 +18,4 @@
 - Scoring rules, data model, decisions and test status are documented in SCORING.md, DATA_MODEL.md, DECISIONS.md, TESTING.md — update them with any rule change.
 - Roadmap planning lives in src/domain/roadmap.ts and only consumes assess() output; it must never recompute scores, models, restrictions or impact.
 - Implementation blueprints and dependency analysis live in src/domain/blueprint.ts; one analyzeDependencies() feeds both workflow blueprints and portfolio shared dependencies.
+- The executive report lives in src/domain/report.ts and is assembled from existing portfolio, roadmap and blueprint functions in one pass; it never adds its own calculations.

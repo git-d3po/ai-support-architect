@@ -37,7 +37,7 @@ function Workspace() {
           <h1 className="text-2xl font-semibold">{org.name}</h1>
           <p className="mt-1 text-sm text-muted-foreground">{org.industry || "—"} · {org.support_agent_count} agents · {org.monthly_ticket_volume.toLocaleString()} tickets / month</p>
         </div>
-        <div className="flex gap-2"><Link to="/workspace/roadmap" className="rounded border px-3 py-1.5 text-sm font-medium hover:bg-accent">Roadmap</Link><Link to="/workspace/workflows/new" className="rounded bg-primary px-3 py-1.5 text-sm font-medium text-primary-foreground">New workflow</Link></div>
+        <div className="flex gap-2"><Link to="/workspace/report" className="rounded border px-3 py-1.5 text-sm font-medium hover:bg-accent">Report</Link><Link to="/workspace/roadmap" className="rounded border px-3 py-1.5 text-sm font-medium hover:bg-accent">Roadmap</Link><Link to="/workspace/workflows/new" className="rounded bg-primary px-3 py-1.5 text-sm font-medium text-primary-foreground">New workflow</Link></div>
       </header>
       {rows.length === 0 ? (
         <div className="panel p-8 text-center text-sm text-muted-foreground">No workflows yet. Add your first workflow to assess it.</div>

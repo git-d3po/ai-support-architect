@@ -106,3 +106,9 @@ Script: `scripts/security/authz_test.ts`. It needs the server-only service-role 
 **Authenticated (disposable users, deleted after):** private blueprint shows saved revision 1, model and Next phase matching the assessment; after a volume change shows "No current blueprint" with no model and a refresh link; user B opening A's blueprint URL → "Workflow not found", no data. First run's private check failed because the script navigated before the save finished; re-run passed.
 **Script review:** `scripts/security/qa_users.ts` uses env vars only, random passwords written only to /tmp, outside `src/` (not bundled or routed); cleanup now limited to `qa-2a-*@example.invalid` users.
 **Not tested:** email-confirmation signup, Google sign-in, hand-crafted RPC forgery, screen-reader testing.
+
+## Phase 3A executive report (2026-10-11)
+**Automated:** 77/77 passed (69 existing + 8 in `src/domain/report.test.ts`: Northstar values, count/impact reconciliation incl. gross − review = net, Human-Led exclusion, mandatory controls + provenance + no completion fields, stale/incomplete exclusion, empty org, unavailable and negative estimates, determinism + org scoping).
+**Browser (demo):** Overview → Assessment report; summary states 15/15, 15,600 of 18,000, 4/6/2/3, 755 gross / 616 net; facts 755 / 139 review / 616. Keyboard Enter on section link jumps to #risks. Report → workflow, → blueprint, → roadmap all correct. 0 non-GET requests. No overflow at 375px.
+**Authenticated (disposable users, deleted):** new org → "No current, complete assessments yet"; after save → 45 net h shown; after volume change → workflow listed under "Excluded from findings", no findings; user B sees only own setup prompt, no A data (report has no id parameter; data comes from owner-scoped getWorkspace).
+**Not tested:** email-confirmation signup, Google sign-in, hand-crafted RPC forgery, screen-reader testing, print/PDF (not implemented).
