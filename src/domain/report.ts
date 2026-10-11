@@ -5,7 +5,7 @@
  */
 import { summarize, type PortfolioItem } from "./portfolio";
 import { buildRoadmap, type RoadmapEntry } from "./roadmap";
-import { analyzeDependencies, sharedDependencies, PROVENANCE_LABEL, type SharedDependency } from "./blueprint";
+import { analyzeDependencies, sharedDependencies, PROVENANCE_LABEL, DEP_CATEGORY_LABEL, type DepCategory, type SharedDependency } from "./blueprint";
 import { MODEL_LABEL, SCORING_VERSION, type OperatingModel, type RestrictionCode } from "./types";
 import { BLUEPRINT_VERSION } from "./blueprint";
 import { ROADMAP_VERSION } from "./roadmap";
@@ -203,8 +203,9 @@ export function buildSequence(
       .filter((d) => d.provenance !== "unspecified") : [];
     const parts: string[] = [];
     if (e.required_controls.length) parts.push(`establish ${e.required_controls.length} required control(s), status unverified: ${e.required_controls.map((c) => c.text.replace(/\.$/, "")).join("; ")}`);
-    const other = deps.filter((d) => d.provenance !== "mandatory");
-    if (other.length) parts.push(`address ${other.map((d) => `${d.text.replace(/\.$/, "")} (${PROVENANCE_LABEL[d.provenance].toLowerCase()})`).join("; ")}`);
+    const cats = new Map<DepCategory, Set<string>>();
+    for (const d of deps.filter((d) => d.provenance !== "mandatory")) (cats.get(d.category) ?? cats.set(d.category, new Set()).get(d.category)!).add(PROVENANCE_LABEL[d.provenance].toLowerCase());
+    if (cats.size) parts.push(`prepare ${[...cats].map(([c, p]) => `${DEP_CATEGORY_LABEL[c].toLowerCase()}${c === "systems" && x?.required_systems?.length ? ` (${x.required_systems.join(", ")})` : ""} [${[...p].join(", ")}]`).join("; ")}`);
     if (parts.length) prepare.push(`${e.name}: ${parts.join(". Also ")}.`);
   }
   if (prepare.length <= (lane === "Later" ? 1 : 0))
