@@ -22,7 +22,7 @@ export function AppHeader() {
       <div className="mx-auto flex min-h-12 max-w-[1400px] flex-wrap items-center gap-x-6 gap-y-1 px-4 py-2 sm:px-6">
         <Link to="/" className="flex items-center gap-2 whitespace-nowrap text-sm font-semibold">
           <LogoMark className="size-6 shrink-0" />
-          Support Automation Architect
+          AI Support Automation Architect
         </Link>
         <nav className="order-3 flex w-full items-center gap-1 overflow-x-auto md:order-none md:w-auto" aria-label="Primary">
           <span className="eyebrow mr-1">Demo</span>
