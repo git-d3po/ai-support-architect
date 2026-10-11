@@ -84,7 +84,7 @@ export function OverviewView({ items, orgVolume, renderLink }: { items: Portfoli
 
       <section className="panel">
         <div className="panel-head"><h2 className="text-sm font-semibold">Top automation candidates</h2><span className="text-[11px] text-muted-foreground">Ranked by priority · gated by model and completeness</span></div>
-        <table className="w-full text-sm">
+        <div className="overflow-x-auto"><table className="w-full text-sm">
           <thead className="bg-surface text-left text-[11px] uppercase tracking-wide text-muted-foreground"><tr>{["#", "Workflow", "Model", "Net h/mo", "Risk", "Effort", "Priority", "Primary restriction"].map((h) => <th key={h} className="px-3 py-2 font-medium">{h}</th>)}</tr></thead>
           <tbody className="divide-y">
             {s.candidates.slice(0, 6).map((c, i) => (
@@ -101,7 +101,7 @@ export function OverviewView({ items, orgVolume, renderLink }: { items: Portfoli
             ))}
             {s.candidates.length === 0 && <tr><td colSpan={8} className="px-3 py-6 text-center text-muted-foreground">No ranked candidates yet.</td></tr>}
           </tbody>
-        </table>
+        </table></div>
       </section>
     </div>
   );
