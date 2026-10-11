@@ -111,7 +111,8 @@ describe("phase-aware next action", () => {
   const PILOT = /\bpilot (agent-assist|with)|run a bounded pilot/i;
   const at = (id: string, p: number, e: number, net?: number) => {
     const it = clone(find(id));
-    it.result!.priority.score = p; it.result!.scores.effort = e;
+    it.result!.priority.score = p;
+    it.result!.scores.effort = e;
     if (net != null) it.result!.impact.net_hours = net;
     return planEntry(it);
   };
@@ -120,12 +121,21 @@ describe("phase-aware next action", () => {
     const e = planEntry(find("product-how-to"));
     expect([e.section, e.model, e.priority]).toEqual(["now", "ai_autonomous", 88]);
     expect(e.required_controls.length).toBeGreaterThan(0);
-    expect(e.next_action).toMatch(/^After the implementing team establishes and verifies required safeguards/);
+    expect(e.next_action).toMatch(
+      /^After the implementing team establishes and verifies required safeguards/,
+    );
   });
   it("Now restricted keeps restriction action", () => {
     const e = planEntry(find("password-reset"));
-    expect([e.section, e.model, e.priority, e.required_controls.length]).toEqual(["now", "deterministic", 79, 4]);
-    expect(e.next_action).toBe("Prepare and validate the verified recovery control before any automation build.");
+    expect([e.section, e.model, e.priority, e.required_controls.length]).toEqual([
+      "now",
+      "deterministic",
+      79,
+      4,
+    ]);
+    expect(e.next_action).toBe(
+      "Prepare and validate the verified recovery control before any automation build.",
+    );
   });
   it("Next unrestricted gets preparation guidance, no pilot", () => {
     const e = planEntry(find("api-authentication-error"));
@@ -162,7 +172,14 @@ describe("phase-aware next action", () => {
     }
   });
   it("boundary cases: action follows phase", () => {
-    const cases: [number, number, string][] = [[70, 39, "now"], [69, 39, "next"], [70, 40, "next"], [50, 59, "next"], [49, 10, "later"], [90, 60, "later"]];
+    const cases: [number, number, string][] = [
+      [70, 39, "now"],
+      [69, 39, "next"],
+      [70, 40, "next"],
+      [50, 59, "next"],
+      [49, 10, "later"],
+      [90, 60, "later"],
+    ];
     for (const [p, ef, lane] of cases) {
       const e = at("api-authentication-error", p, ef);
       expect(e.section).toBe(lane);
@@ -171,10 +188,16 @@ describe("phase-aware next action", () => {
     }
   });
   it("no Next/Later entry carries a pilot instruction; deterministic output", () => {
-    const a = buildRoadmap(rows()), b = buildRoadmap(rows());
+    const a = buildRoadmap(rows()),
+      b = buildRoadmap(rows());
     expect(a).toEqual(b);
-    for (const e of [...a.entries.next, ...a.entries.later]) expect(e.next_action).not.toMatch(PILOT);
+    for (const e of [...a.entries.next, ...a.entries.later])
+      expect(e.next_action).not.toMatch(PILOT);
     expect([a.totals.now.count, a.totals.next.count, a.totals.later.count]).toEqual([4, 3, 5]);
-    expect([Math.round(a.totals.now.net), Math.round(a.totals.next.net), Math.round(a.totals.later.net)]).toEqual([408, 93, 115]);
+    expect([
+      Math.round(a.totals.now.net),
+      Math.round(a.totals.next.net),
+      Math.round(a.totals.later.net),
+    ]).toEqual([408, 93, 115]);
   });
 });

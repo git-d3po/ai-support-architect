@@ -96,12 +96,19 @@ function dependencyFor(it: PortfolioItem): Dependency | null {
 
 export const PHASE_ACTION = {
   next: "Complete prerequisite design, integration planning and safeguard validation; revisit implementation priority and pilot feasibility before proceeding.",
-  later: "Reassess business value, implementation effort, assumptions and dependencies before reconsidering automation or a pilot.",
-  later_nonpositive: "Revisit the unfavorable modeled impact and its assumptions, including review effort and expected handling-time reduction, before reconsidering automation. Do not initiate a pilot on the current business case.",
+  later:
+    "Reassess business value, implementation effort, assumptions and dependencies before reconsidering automation or a pilot.",
+  later_nonpositive:
+    "Revisit the unfavorable modeled impact and its assumptions, including review effort and expected handling-time reduction, before reconsidering automation. Do not initiate a pilot on the current business case.",
 } as const;
 
 /** Next-action precedence for automation lanes: restriction action > phase-aware guidance. Now keeps the engine's model-level step. */
-function phaseAction(section: Lane, net: number, restriction: RestrictionCode | undefined, modelStep: string): string {
+function phaseAction(
+  section: Lane,
+  net: number,
+  restriction: RestrictionCode | undefined,
+  modelStep: string,
+): string {
   if (restriction) return RESTRICTION_ACTION[restriction];
   if (section === "now") return modelStep;
   if (section === "next") return PHASE_ACTION.next;
