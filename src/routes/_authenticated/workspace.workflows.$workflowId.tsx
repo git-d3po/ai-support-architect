@@ -29,8 +29,8 @@ function WorkspaceWorkflow() {
   const { workflowId } = Route.useParams();
   const fetchDetail = useServerFn(getWorkflowDetail);
   const q = useQuery({ queryKey: ["workflow", workflowId], queryFn: () => fetchDetail({ data: { id: workflowId } }) });
-  if (q.isPending) return <p className="text-sm text-muted-foreground">Loading…</p>;
-  if (q.isError) return <p className="text-sm text-restrict">Could not load this workflow.</p>;
+  if (q.isPending) return <p role="status" className="text-sm text-muted-foreground">Loading…</p>;
+  if (q.isError) return <p role="alert" className="text-sm text-restrict">Could not load this workflow.</p>;
   if (!q.data.workflow) return <div className="py-16 text-center text-sm text-muted-foreground">Workflow not found. <Link to="/workspace" className="underline">Back to workspace</Link></div>;
   return <Editor key={`${workflowId}:${q.data.latest?.revision ?? 0}:${q.data.workflow.attributes_version}`} data={q.data as Required<typeof q.data> & { workflow: NonNullable<typeof q.data.workflow> }} />;
 }

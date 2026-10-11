@@ -20,8 +20,8 @@ export const Route = createFileRoute("/_authenticated/workspace/roadmap")({
 function WorkspaceRoadmap() {
   const fetchWs = useServerFn(getWorkspace);
   const q = useQuery({ queryKey: ["workspace"], queryFn: () => fetchWs() });
-  if (q.isPending) return <p className="text-sm text-muted-foreground">Loading roadmap…</p>;
-  if (q.isError) return <p className="text-sm text-restrict">Could not load your workspace. Try refreshing.</p>;
+  if (q.isPending) return <p role="status" className="text-sm text-muted-foreground">Loading roadmap…</p>;
+  if (q.isError) return <p role="alert" className="text-sm text-restrict">Could not load your workspace. Try refreshing.</p>;
   const { org, workflows, latest } = q.data;
   if (!org) return <p className="text-sm">Set up your organization in <Link to="/workspace" className="underline">My workspace</Link> first.</p>;
   const rows = toRows(workflows, latest);
