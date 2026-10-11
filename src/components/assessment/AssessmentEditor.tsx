@@ -5,20 +5,31 @@ import { cn } from "@/lib/utils";
 
 const ORD: Ordinal[] = [0, 1, 2, 3, 4];
 
-function Segmented({ value, onChange, label, disabled }: { value: Ordinal | null | undefined; onChange: (v: Ordinal | null) => void; label: string; disabled?: boolean | undefined }) {
+function Segmented({ value, onChange, label, disabled, anchors }: { value: Ordinal | null | undefined; onChange: (v: Ordinal | null) => void; label: string; disabled?: boolean | undefined; anchors?: Record<number, string> | readonly string[] }) {
+  const focusIdx = value ?? 0;
+  const onKey = (e: React.KeyboardEvent<HTMLDivElement>) => {
+    const d = e.key === "ArrowRight" || e.key === "ArrowUp" ? 1 : e.key === "ArrowLeft" || e.key === "ArrowDown" ? -1 : 0;
+    if (!d || disabled) return;
+    e.preventDefault();
+    const next = Math.min(4, Math.max(0, (value ?? (d > 0 ? -1 : 5)) + d)) as Ordinal;
+    onChange(next);
+    (e.currentTarget.querySelectorAll("button")[next] as HTMLButtonElement | undefined)?.focus();
+  };
   return (
-    <div role="radiogroup" aria-label={label} className="inline-flex overflow-hidden rounded border bg-card">
+    <div role="radiogroup" aria-label={`${label}, 0 to 4`} onKeyDown={onKey} className="grid w-full grid-cols-5 overflow-hidden rounded border bg-card sm:inline-grid sm:w-auto">
       {ORD.map((o) => (
         <button
           key={o}
           type="button"
           role="radio"
           aria-checked={value === o}
+          aria-label={anchors?.[o] ? `${o}: ${anchors[o]}` : String(o)}
+          tabIndex={o === focusIdx ? 0 : -1}
           disabled={disabled}
           onClick={() => onChange(value === o ? null : o)}
           className={cn(
-            "num h-7 w-8 border-r text-xs last:border-r-0 focus-visible:outline-2 focus-visible:outline-ring focus-visible:-outline-offset-2",
-            value === o ? "bg-primary text-primary-foreground" : "hover:bg-accent",
+            "num h-11 border-r text-sm last:border-r-0 sm:h-8 sm:w-9 focus-visible:outline-2 focus-visible:outline-ring focus-visible:-outline-offset-2",
+            value === o ? "bg-primary font-semibold text-primary-foreground" : "hover:bg-accent",
           )}
         >
           {o}
@@ -34,7 +45,7 @@ function errFor(errors: ValidationError[], field: string) {
 
 function FieldErrors({ errors }: { errors: ValidationError[] }) {
   if (!errors.length) return null;
-  return <>{errors.map((e, i) => <p key={i} role="alert" className="mt-1 text-[13px] text-restrict">{e.message}</p>)}</>;
+  return <>{errors.map((e, i) => <p key={i} role="alert" aria-live="polite" className="mt-1 text-[13px] text-restrict">{e.message}</p>)}</>;
 }
 
 function Group({ title, subtitle, children }: { title: string; subtitle?: string; children: React.ReactNode }) {
@@ -78,7 +89,7 @@ export function AssessmentEditor({
             const v = inputs.factors[f.key];
             const fe = errFor(errors, `factors.${f.key}`);
             return (
-              <div key={f.key} className={cn("grid grid-cols-[1fr_auto] items-start gap-4 px-4 py-2.5", fe.length && "bg-restrict-soft")}>
+              <div key={f.key} className={cn("grid gap-2 px-4 py-3 sm:grid-cols-[1fr_auto] sm:items-start sm:gap-4 sm:py-2.5", fe.length && "bg-restrict-soft")}>
                 <div className="min-w-0">
                   <div className="flex items-baseline gap-2 text-sm font-medium">
                     {f.label}<span className="num text-[13px] font-normal text-muted-foreground">{Math.round(f.weight * 100)}%</span>
@@ -86,7 +97,7 @@ export function AssessmentEditor({
                   <p className="text-[13px] text-muted-foreground">{v != null ? <><span className="font-medium text-foreground">{v}:</span> {f.anchors[v]}</> : <span className="text-model-none">Not provided — {f.description}</span>}</p>
                   <FieldErrors errors={fe} />
                 </div>
-                <Segmented label={f.label} value={v} onChange={(x) => setFactor(f.key, x)} disabled={disabled} />
+                <Segmented label={f.label} value={v} onChange={(x) => setFactor(f.key, x)} disabled={disabled} anchors={f.anchors} />
               </div>
             );
           })}
@@ -94,12 +105,12 @@ export function AssessmentEditor({
       ))}
 
       <Group title="Decision attributes" subtitle="Not weighted; used by the rules">
-        <div className="grid grid-cols-[1fr_auto] items-start gap-4 px-4 py-2.5">
+        <div className="grid gap-2 px-4 py-3 sm:grid-cols-[1fr_auto] sm:items-start sm:gap-4 sm:py-2.5">
           <div>
             <div className="text-sm font-medium">Language reasoning required</div>
             <p className="text-[13px] text-muted-foreground">{inputs.attributes.language_reasoning != null ? LANGUAGE_REASONING_ANCHORS[inputs.attributes.language_reasoning] : <span className="text-model-none">Not provided</span>}</p>
           </div>
-          <Segmented label="Language reasoning" value={inputs.attributes.language_reasoning} onChange={(x) => setAttr("language_reasoning", x)} disabled={disabled} />
+          <Segmented label="Language reasoning" value={inputs.attributes.language_reasoning} onChange={(x) => setAttr("language_reasoning", x)} disabled={disabled} anchors={LANGUAGE_REASONING_ANCHORS} />
         </div>
         <TriState label="Authoritative policy available" value={inputs.attributes.authoritative_policy_available} onChange={(x) => setAttr("authoritative_policy_available", x)} disabled={disabled} />
         {attrs.handles_account_access && (
@@ -138,7 +149,7 @@ export function AssessmentEditor({
               aria-label={label}
               value={inputs.impact[k] ?? ""}
               onChange={(e) => setImpact(k, e.target.value)}
-              className="num h-8 rounded border bg-card px-2 text-right text-sm"
+              className="num h-11 rounded border bg-card px-2 text-right text-sm sm:h-8"
               placeholder="—"
             />
           </label>
@@ -156,7 +167,7 @@ function TriState({ label, help, value, onChange, disabled, errors = [] }: { lab
         {([[true, "Yes"], [false, "No"]] as const).map(([v, l]) => (
           <button key={l} type="button" role="radio" aria-checked={value === v} disabled={disabled}
             onClick={() => onChange(value === v ? null : v)}
-            className={cn("h-7 px-3 text-xs border-r last:border-r-0", value === v ? "bg-primary text-primary-foreground" : "hover:bg-accent")}>{l}</button>
+            className={cn("h-11 min-w-14 px-3 text-sm border-r last:border-r-0 sm:h-8", value === v ? "bg-primary text-primary-foreground" : "hover:bg-accent")}>{l}</button>
         ))}
       </div>
     </div>
