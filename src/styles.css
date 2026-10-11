@@ -139,3 +139,19 @@
   .eyebrow { @apply text-xs font-medium uppercase tracking-[0.08em] text-muted-foreground; }
   .num { @apply font-mono tabular-nums; }
 }
+
+/* Print: Executive report. Hides app chrome and interactive navigation, unclips tables, avoids awkward breaks. */
+@media print {
+  @page { margin: 14mm 12mm; }
+  html, body { background: #fff !important; font-size: 10.5pt; }
+  header.sticky, [data-print-hide], nav[aria-label="Report sections"], [data-sonner-toaster] { display: none !important; }
+  main, article { max-width: none !important; padding: 0 !important; margin: 0 !important; }
+  .overflow-x-auto, .overflow-hidden { overflow: visible !important; }
+  table { width: 100% !important; font-size: 9pt; }
+  thead { display: table-header-group; }
+  tr, .panel, [role="status"], figure { break-inside: avoid; }
+  h1, h2, h3 { break-after: avoid; }
+  section { break-inside: auto; }
+  a { color: inherit !important; text-decoration: none !important; }
+  * { -webkit-print-color-adjust: exact; print-color-adjust: exact; box-shadow: none !important; }
+}
