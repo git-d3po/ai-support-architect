@@ -18,7 +18,17 @@ A good walkthrough starts with the synthetic portfolio, opens **Password reset**
 
 **Engineering documentation:** [Architecture and case study](docs/CASE_STUDY.md) · [Release evidence](docs/RELEASE_EVIDENCE.md) · [Known limitations](docs/KNOWN_LIMITATIONS.md) · [Release notes](docs/releases/v1.0.0.md) · [Screenshot capture manifest](docs/screenshots/README.md).
 
-Ten final screenshots from the public synthetic demo are provided as a separate portfolio image pack. They have not yet been uploaded as binary repository assets, so this README deliberately does not contain broken image links. The live demo itself remains directly accessible.
+### Captured public-demo screens
+
+| Overview | Implementation roadmap |
+| --- | --- |
+| [![Northstar synthetic overview](docs/screenshots/01-overview.png)](docs/screenshots/01-overview.png) | [![Phase-aware Now/Next/Later roadmap](docs/screenshots/05-implementation-roadmap.png)](docs/screenshots/05-implementation-roadmap.png) |
+
+| Password reset assessment | Executive report priorities |
+| --- | --- |
+| [![Deterministic password-reset recommendation](docs/screenshots/03-password-reset-assessment.png)](docs/screenshots/03-password-reset-assessment.png) | [![Executive Report Section E](docs/screenshots/07-report-priorities.png)](docs/screenshots/07-report-priorities.png) |
+
+More captures: [inventory](docs/screenshots/02-workflow-inventory.png), [Blueprint](docs/screenshots/04-password-reset-blueprint.png), [report overview](docs/screenshots/06-executive-report-summary.png), [safety controls](docs/screenshots/08-report-controls.png), [shared dependencies](docs/screenshots/09-report-dependencies-and-sequence.png), and [implementation sequence](docs/screenshots/10-report-pilot-and-limitations.png). These screenshots are generated from the public **synthetic** demo; they are visual evidence, not observed operational outcomes.
 
 ## Product workflow
 

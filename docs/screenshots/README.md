@@ -15,7 +15,7 @@ These ten images were captured from the **published synthetic Northstar Cloud de
 | `09-report-dependencies-and-sequence.png` | Section G/H: shared dependencies and preparation |
 | `10-report-pilot-and-limitations.png` | Section H/I: pilot safeguards and report limits |
 
-The source PNG files are currently packaged separately in `ai-support-architect-v1-portfolio-screenshots.zip`, delivered to the project owner alongside this release work. **They are not yet hosted in this repository**, because the connected GitHub action cannot transfer these locally uploaded binary screenshots. Do not mistake this manifest for a hosted image gallery.
+The PNG files listed above were produced by a one-time GitHub Actions browser capture of the published **synthetic** demo and are now hosted in this repository. An earlier manually provided ten-image screenshot pack is also available separately. These are public UI captures, not evidence of real customer automation or a signed deployment attestation.
 
 Once copied into this folder, the most informative four captures to embed in the README are Overview, Password reset assessment, Roadmap, and the Report priorities table. Keep screenshots unaltered and never include authenticated/private customer data.
 
