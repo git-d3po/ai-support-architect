@@ -79,6 +79,6 @@ The project combines support-operations modeling, TypeScript domain design, a se
 
 ## Technical references
 
-[README](../README.md) · [SCORING.md](../SCORING.md) · [DATA_MODEL.md](../DATA_MODEL.md) · [IMPLEMENTATION_DESIGN.md](../IMPLEMENTATION_DESIGN.md) · [DECISIONS.md](../DECISIONS.md) · [Release evidence](RELEASE_EVIDENCE.md) · [Known limitations](KNOWN_LIMITATIONS.md) · [Screenshot capture manifest](screenshots/README.md)
+[README](../README.md) · [SCORING.md](../SCORING.md) · [DATA_MODEL.md](../DATA_MODEL.md) · [IMPLEMENTATION_DESIGN.md](../IMPLEMENTATION_DESIGN.md) · [DECISIONS.md](../DECISIONS.md) · [Release evidence](RELEASE_EVIDENCE.md) · [Known limitations](KNOWN_LIMITATIONS.md)
 
 **Implementation environment:** Lovable with React, TypeScript, TanStack Start, PostgreSQL, RLS and a Supabase-compatible SDK. The case study describes the product and engineering decisions; it does not claim individual authorship of every generated code line.
