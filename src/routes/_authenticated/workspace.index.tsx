@@ -1,4 +1,4 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useServerFn } from "@tanstack/react-start";
 import { useState } from "react";
@@ -22,6 +22,7 @@ export const Route = createFileRoute("/_authenticated/workspace/")({
 
 function Workspace() {
   const fetchWs = useServerFn(getWorkspace);
+  const navigate = useNavigate();
   const q = useQuery({ queryKey: ["workspace"], queryFn: () => fetchWs() });
   if (q.isPending) return <p className="text-sm text-muted-foreground">Loading workspace…</p>;
   if (q.isError) return <p className="text-sm text-restrict">Could not load your workspace. Try refreshing.</p>;
@@ -42,7 +43,8 @@ function Workspace() {
         <div className="panel p-8 text-center text-sm text-muted-foreground">No workflows yet. Add your first workflow to assess it.</div>
       ) : (
         <>
-          <OverviewView items={rows} orgVolume={org.monthly_ticket_volume} renderLink={(it, c) => <Link to="/workspace/workflows/$workflowId" params={{ workflowId: it.id }} className="hover:underline">{c}</Link>} />
+          <OverviewView items={rows} orgVolume={org.monthly_ticket_volume} onSelectWorkflow={(id) => navigate({ to: "/workspace/workflows/$workflowId", params: { workflowId: id } })}
+        renderLink={(it, c) => <Link to="/workspace/workflows/$workflowId" params={{ workflowId: it.id }} className="hover:underline">{c}</Link>} />
           <h2 className="text-sm font-semibold">Workflow inventory</h2>
           <WorkflowTable rows={rows} renderName={(r) => <Link to="/workspace/workflows/$workflowId" params={{ workflowId: r.id }} className="hover:underline">{r.name}</Link>} />
         </>

@@ -37,7 +37,7 @@ export function WorkflowForm({ initial, onSubmit, submitLabel, busy, note }: { i
       <label className="block text-sm"><span className="eyebrow mb-1 block">Current process</span><textarea maxLength={4000} rows={2} value={v.current_process} onChange={(e) => setV({ ...v, current_process: e.target.value })} className="w-full rounded border bg-card p-2" /></label>
       <label className="block text-sm"><span className="eyebrow mb-1 block">Required systems (comma-separated)</span><input value={systems} onChange={(e) => setSystems(e.target.value)} className="h-8 w-full rounded border bg-card px-2" /></label>
       <WorkflowAttributesEditor attrs={v.attrs} onChange={(attrs) => setV({ ...v, attrs })} />
-      {note && <p className="text-[11px] text-muted-foreground">{note}</p>}
+      {note && <p className="text-[13px] text-muted-foreground">{note}</p>}
       <button disabled={busy} className="h-8 rounded bg-primary px-3 text-sm font-medium text-primary-foreground disabled:opacity-60">{submitLabel}</button>
     </form>
   );

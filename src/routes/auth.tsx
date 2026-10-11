@@ -55,7 +55,7 @@ function AuthPage() {
         <h1 className="text-lg font-semibold">{mode === "signin" ? "Sign in to your workspace" : "Create a workspace account"}</h1>
         <p className="mt-1 text-xs text-muted-foreground">Your organization, workflows and assessments are private to your account. The Northstar demo needs no account.</p>
         <button onClick={google} className="mt-5 h-9 w-full rounded border text-sm font-medium hover:bg-accent">Continue with Google</button>
-        <div className="my-4 flex items-center gap-3 text-[11px] text-muted-foreground"><span className="h-px flex-1 bg-border" />or<span className="h-px flex-1 bg-border" /></div>
+        <div className="my-4 flex items-center gap-3 text-[13px] text-muted-foreground"><span className="h-px flex-1 bg-border" />or<span className="h-px flex-1 bg-border" /></div>
         <form onSubmit={submit} className="space-y-3">
           <label className="block text-sm"><span className="eyebrow mb-1 block">Email</span>
             <input type="email" required autoComplete="email" value={email} onChange={(e) => setEmail(e.target.value)} className="h-9 w-full rounded border bg-card px-2" /></label>

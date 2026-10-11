@@ -16,7 +16,7 @@ function ScoreBar({ label, value, hint, invert }: { label: string; value: number
           <div className={cn("h-full rounded-full", invert ? "bg-model-human" : "bg-primary")} style={{ width: `${value}%` }} />
         )}
       </div>
-      <p className="text-[11px] text-muted-foreground">{hint}</p>
+      <p className="text-[13px] text-muted-foreground">{hint}</p>
     </div>
   );
 }
@@ -36,7 +36,7 @@ export function RecommendationPanel({ result }: { result: AssessmentResult }) {
     <section className="panel" aria-labelledby="rec-h">
       <div className="panel-head">
         <h2 id="rec-h" className="text-sm font-semibold">Recommendation</h2>
-        <span className="num text-[11px] text-muted-foreground">rule {result.rule} · v{result.scoring_version}</span>
+        <span className="num text-[13px] text-muted-foreground">rule {result.rule} · v{result.scoring_version}</span>
       </div>
       <div className="space-y-5 p-4">
         <div className="flex flex-wrap items-center gap-3" data-testid="recommended-model">
@@ -95,7 +95,7 @@ export function RestrictionsPanel({ result }: { result: AssessmentResult }) {
               <li key={r.code} className="flex gap-2.5 rounded border border-restrict/25 bg-restrict-soft p-2.5 text-sm">
                 <ShieldAlert className="mt-0.5 size-4 shrink-0 text-restrict" />
                 <div>
-                  <div className="font-medium">{r.label} <span className="num ml-1 text-[11px] font-normal text-muted-foreground">{r.code.split("_")[0]} · {r.source}</span></div>
+                  <div className="font-medium">{r.label} <span className="num ml-1 text-[13px] font-normal text-muted-foreground">{r.code.split("_")[0]} · {r.source}</span></div>
                   <div className="text-muted-foreground">{r.effect}</div>
                 </div>
               </li>
@@ -133,7 +133,7 @@ export function ImpactPanel({ result, attrs }: { result: AssessmentResult; attrs
     <section className="panel">
       <div className="panel-head">
         <h2 className="text-sm font-semibold">Modeled monthly opportunity</h2>
-        <span className="text-[11px] text-muted-foreground">Scenario estimate · not yet validated in production</span>
+        <span className="text-[13px] text-muted-foreground">Scenario estimate · not yet validated in production</span>
       </div>
       <div className="space-y-4 p-4">
         {!im.available && im.gross_hours == null ? (
@@ -147,12 +147,12 @@ export function ImpactPanel({ result, attrs }: { result: AssessmentResult; attrs
               ["Review hours", fmt(im.review_hours)],
               ["Net modeled hours", fmt(im.net_hours)],
             ].map(([k, v]) => (
-              <div key={k}><dt className="text-[11px] text-muted-foreground">{k}</dt><dd className={cn("num text-base font-semibold", k?.startsWith("Net") && im.unfavorable && "text-restrict")}>{v}</dd></div>
+              <div key={k}><dt className="text-[13px] text-muted-foreground">{k}</dt><dd className={cn("num text-base font-semibold", k?.startsWith("Net") && im.unfavorable && "text-restrict")}>{v}</dd></div>
             ))}
           </dl>
         )}
         {im.unfavorable && <p className="rounded border border-restrict/25 bg-restrict-soft p-2 text-xs">Unfavorable scenario: review effort exceeds modeled handling-time reduction.</p>}
-        <p className="num text-[11px] leading-relaxed text-muted-foreground">
+        <p className="num text-[13px] leading-relaxed text-muted-foreground">
           eligible = {attrs.monthly_volume.toLocaleString()} vol × addressable · affected = eligible × coverage · gross = affected × {attrs.aht_minutes} min AHT × reduction ÷ 60 · review = affected × reviewed × review min ÷ 60 · net = gross − review. Excludes maintenance and tooling overhead.
         </p>
         <div className="flex flex-wrap items-center gap-x-6 gap-y-2 border-t pt-3 text-sm">
@@ -161,7 +161,7 @@ export function ImpactPanel({ result, attrs }: { result: AssessmentResult; attrs
           <div><span className="eyebrow block">Impact index</span><span className="num">{p.impact_index ?? "—"}</span></div>
           <div><span className="eyebrow block">Control readiness</span><span className="num">{p.control_readiness ?? "—"}</span></div>
         </div>
-        <p className="text-[11px] text-muted-foreground">Priority = 0.40·impact index + 0.25·(100−effort) + 0.20·(100−risk) + 0.15·control readiness. Impact index caps at {THRESHOLDS.impactCapHours} net h. Weights are uncalibrated v1 design assumptions.</p>
+        <p className="text-[13px] text-muted-foreground">Priority = 0.40·impact index + 0.25·(100−effort) + 0.20·(100−risk) + 0.15·control readiness. Impact index caps at {THRESHOLDS.impactCapHours} net h. Weights are uncalibrated v1 design assumptions.</p>
       </div>
     </section>
   );

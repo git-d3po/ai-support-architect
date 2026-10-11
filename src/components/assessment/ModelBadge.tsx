@@ -31,7 +31,7 @@ export function ModelBadge({ model, size = "sm" }: { model: ModelOutcome | null;
       )}
     >
       <span className={cn("size-1.5 rounded-full", MODEL_DOT[m])} aria-hidden />
-      {label}
+      <span className="sr-only">Recommended model: </span>{label}
     </span>
   );
 }
@@ -56,5 +56,25 @@ export function SyntheticBadge() {
     <span className="inline-flex items-center rounded border border-dashed border-muted-foreground/50 px-1.5 py-0.5 text-[11px] font-medium uppercase tracking-wide text-muted-foreground">
       Synthetic data
     </span>
+  );
+}
+
+export const MODEL_HINT: Record<Exclude<ModelOutcome, "insufficient_data">, string> = {
+  deterministic: "Rules and integrations, no AI judgment.",
+  ai_assisted: "AI drafts or suggests; an agent decides.",
+  ai_autonomous: "AI resolves within strict limits and checks.",
+  human_led: "Agents handle it; tools only support.",
+};
+
+export function ModelLegend() {
+  return (
+    <ul aria-label="Operating model key" className="grid gap-x-4 gap-y-1.5 text-[13px] sm:grid-cols-2">
+      {(Object.keys(MODEL_HINT) as (keyof typeof MODEL_HINT)[]).map((m) => (
+        <li key={m} className="flex items-start gap-2">
+          <span className={cn("mt-1 size-2.5 shrink-0 rounded-full", MODEL_DOT[m])} aria-hidden />
+          <span><span className="font-medium">{MODEL_LABEL[m]}</span> <span className="text-muted-foreground">— {MODEL_HINT[m]}</span></span>
+        </li>
+      ))}
+    </ul>
   );
 }

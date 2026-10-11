@@ -18,7 +18,7 @@ export function FutureStateDiagram({ result }: { result: AssessmentResult }) {
     <section className="panel">
       <div className="panel-head">
         <h2 className="text-sm font-semibold">Proposed future-state architecture</h2>
-        <span className="text-[11px] text-muted-foreground">Proposal only · not a deployed integration</span>
+        <span className="text-[13px] text-muted-foreground">Proposal only · not a deployed integration</span>
       </div>
       <div className="p-4">
         {!steps ? (
@@ -31,7 +31,7 @@ export function FutureStateDiagram({ result }: { result: AssessmentResult }) {
                 <li key={idx} className="flex items-stretch gap-2">
                   <div className={cn("w-40 rounded border p-2.5", TONE[s.kind])}>
                     <div className="flex items-center gap-1.5 text-xs font-semibold"><Icon className="size-3.5" />{s.title}</div>
-                    <p className="mt-1 text-[11px] leading-snug text-muted-foreground">{s.detail}</p>
+                    <p className="mt-1 text-[13px] leading-snug text-muted-foreground">{s.detail}</p>
                   </div>
                   {idx < steps.length - 1 && <span className="self-center text-muted-foreground" aria-hidden>→</span>}
                 </li>
