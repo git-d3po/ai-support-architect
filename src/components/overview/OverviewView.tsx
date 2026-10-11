@@ -65,8 +65,8 @@ export function OverviewView({ items, orgVolume, renderLink, onSelectWorkflow }:
               <ResponsiveContainer width="100%" height="100%">
                 <ScatterChart margin={{ top: 10, right: 20, bottom: 24, left: 8 }}>
                   <CartesianGrid stroke="var(--border)" />
-                  <XAxis type="number" dataKey="effort" domain={[0, 100]} name="Effort" tick={{ fontSize: 11 }} label={{ value: "Implementation effort (0–100)", position: "insideBottom", offset: -12, fontSize: 11 }} />
-                  <YAxis type="number" dataKey="net" name="Net hours" tick={{ fontSize: 11 }} label={{ value: "Net modeled h/mo", angle: -90, position: "insideLeft", fontSize: 11 }} />
+                  <XAxis type="number" dataKey="effort" domain={[0, 100]} name="Effort" tick={{ fontSize: 12 }} label={{ value: "Implementation effort (0–100)", position: "insideBottom", offset: -12, fontSize: 12 }} />
+                  <YAxis type="number" dataKey="net" name="Net hours" tick={{ fontSize: 12 }} label={{ value: "Net modeled h/mo", angle: -90, position: "insideLeft", fontSize: 12 }} />
                   <ZAxis range={[70, 70]} />
                   <ReferenceLine x={50} stroke="var(--muted-foreground)" strokeDasharray="3 3" />
                   <Tooltip cursor={false} content={({ payload }) => {

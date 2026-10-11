@@ -68,3 +68,9 @@ Script: `scripts/security/authz_test.ts`. It needs the server-only service-role 
 - Weights and thresholds are uncalibrated design assumptions.
 - The demo uses per-assessment provenance (observed/estimate), not per-field.
 - No automated accessibility audit has been run.
+
+## Phase 1.5 UX refinement (2026-10-11)
+- Vitest: 45/45 passed (scoring regression unchanged). Overview still shows 4/6/2/3 distribution, 755 gross / 616 net h.
+- Browser (Playwright, demo): chart point click → /demo/workflows/password-reset; keyboard Enter on chart list link → correct workflow; no horizontal overflow at 1280/820/375; phone score buttons 61×44px, arrow keys move selection, aria-label includes anchor text; demo what-if resets after reload.
+- Required-controls column renders engine `restrictions` and `controls` counts only.
+- Not rerun: authenticated save/stale flow and two-user security script (no session in this pass). No screen-reader testing; no formal WCAG claim.
