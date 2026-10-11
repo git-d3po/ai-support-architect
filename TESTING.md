@@ -79,3 +79,23 @@ Script: `scripts/security/authz_test.ts`. It needs the server-only service-role 
 - Vitest: 56/56 passed (45 existing + 11 new in `src/domain/roadmap.test.ts`: Now placement, Human-Led exclusion, restrictions/controls visibility, stale exclusion, incomplete no fabricated values, change updates phase, deletion, determinism, total reconciliation 755/616, negative net, phase boundaries).
 - Browser (demo): Overview "View roadmap" → /demo/roadmap; Now 4 (408 net h), Next 3 (93), Later 5 (115) = 616; Human-Led 3; keyboard Enter on a Now link → workflow detail; no horizontal overflow at 375px.
 - Not executed: authenticated smoke test and private roadmap browser check (no signed-in session minted this pass). Private roadmap reuses `getWorkspace` (owner-scoped RLS), so test 13 relies on prior evidence, not a rerun. Test 12 (demo non-persistence) covered by Phase 1.5 reload check, not rerun.
+
+## Phase 2A final verification gate (2026-10-11)
+**Test identities:** two disposable confirmed users created via the service-role admin API (`scripts/security/qa_users.ts create`); signed in through the real /auth password form; deleted afterwards with all data (`cleanup` → 0 remaining). No auth settings, RLS or client code changed.
+
+**Automated:** vitest 56/56 passed.
+
+**Authenticated browser (user A), real session:**
+- Created org + workflow, completed assessment, saved → reload shows "Saved revision 1 of 1 · AI Autonomous (bounded)".
+- My Roadmap: workflow in Next, priority 63, effort 25, net 44.8 h (gross 48); matches DB snapshot rev 1 (priority 63, ai_autonomous).
+- Changed monthly volume 2000→3000: detail shows stale banner; Overview 0/1 assessed, 0 net h; Roadmap 0 candidates, 0 net h, workflow listed under Needs reassessment. All three agree.
+- Re-assessed → revision 2 (priority 69, net 67.2 h, still Next); Roadmap updated.
+- DB: revisions 1 (attr v1, score 63) and 2 (attr v2, score 69) both present — history intact.
+
+**Isolation (user B), real session:** roadmap before org shows setup prompt (no data); after creating own org/workflow, roadmap shows only B's unassessed workflow, 0 net h, no A data; direct URL to A's workflow id → "Workflow not found", no A fields rendered. Roadmap loads through the same owner-scoped `getWorkspace` path tested here.
+
+**Public demo:** Overview → Roadmap → Now 4/408, Next 3/93, Later 5/115, Human-Led 3; opened workflow from roadmap; changed a factor → "Unsaved simulation" notice; reload restored canonical value; zero non-GET requests.
+
+**Fix:** private Needs-reassessment link said "Re-assess" for never-assessed workflows; now "Open assessment".
+
+**Still not tested:** email-confirmation signup, Google sign-in, hand-crafted live RPC forgery (beyond direct-URL access), screen-reader testing. No production-wide security certification claimed.
