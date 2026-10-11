@@ -3,6 +3,8 @@ import type { AssessmentResult, Category, WorkflowAttributes } from "@/domain/ty
 import { ACTION_LABEL, CATEGORY_LABEL } from "@/domain/types";
 import { RecommendationPanel, RestrictionsPanel, ImpactPanel } from "@/components/assessment/ResultPanels";
 import { FutureStateDiagram } from "@/components/assessment/FutureStateDiagram";
+import { ContradictionPanel } from "@/components/assessment/ContradictionPanel";
+import type { ValidationError } from "@/domain/types";
 
 export interface WorkflowMeta {
   name: string;
@@ -13,7 +15,7 @@ export interface WorkflowMeta {
 }
 
 export function WorkflowDetailView({
-  meta, attrs, result, banner, actions, editor, badges,
+  meta, attrs, result, banner, actions, editor, badges, contradictions = [],
 }: {
   meta: WorkflowMeta;
   attrs: WorkflowAttributes;
@@ -22,6 +24,7 @@ export function WorkflowDetailView({
   actions?: ReactNode;
   editor: ReactNode;
   badges?: ReactNode;
+  contradictions?: ValidationError[];
 }) {
   return (
     <div className="space-y-5">
@@ -43,10 +46,14 @@ export function WorkflowDetailView({
       </section>
       <div className="grid gap-5 xl:grid-cols-[minmax(0,1fr)_minmax(0,460px)]">
         <div className="space-y-5">
-          <RecommendationPanel result={result} />
-          <RestrictionsPanel result={result} />
-          <ImpactPanel result={result} attrs={attrs} />
-          <FutureStateDiagram result={result} />
+          {contradictions.length > 0 ? <ContradictionPanel errors={contradictions} /> : (
+            <>
+              <RecommendationPanel result={result} />
+              <RestrictionsPanel result={result} />
+              <ImpactPanel result={result} attrs={attrs} />
+              <FutureStateDiagram result={result} />
+            </>
+          )}
         </div>
         <div>
           <h2 className="eyebrow mb-2">Assessment inputs</h2>
