@@ -15,7 +15,9 @@ describe("implementation sequence edge cases", () => {
     const { s } = seqText(rows);
     expect(s.define[0]).toMatch(/Now candidates: .*Password reset/);
     expect(s.prepare.some((p) => /Password reset: establish \d+ required control\(s\), status unverified/.test(p))).toBe(true);
-    expect(s.pilot.join(" ")).toMatch(/only after their mandatory controls are in place and verified/);
+    expect(s.pilot.join(" ")).toMatch(/without triggered safety restrictions.*establish and verify required safeguards.*before a limited pilot/);
+    expect(s.pilot.join(" ")).toMatch(/with triggered safety restrictions.*pilot only after all required safeguards are established and verified/);
+    expect(s.pilot.join(" ")).not.toMatch(/Pilot unrestricted/);
   });
 
   it("Next-only portfolio never mentions Now candidates as existing", () => {

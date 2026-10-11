@@ -104,13 +104,19 @@ export function OverviewView({ items, orgVolume, renderLink, onSelectWorkflow }:
                 <td className="num px-3 py-2">{c.result!.scores.risk}</td>
                 <td className="num px-3 py-2">{c.result!.scores.effort}</td>
                 <td className="num px-3 py-2 font-semibold">{c.result!.priority.score}</td>
-                <td className="min-w-56 px-3 py-2 text-[13px]">{c.result!.restrictions.length === 0 ? <span className="text-muted-foreground">No mandatory restrictions</span> : (
-                  <div>
-                    <span className="inline-flex items-center gap-1 rounded border border-restrict/40 bg-restrict-soft px-1.5 py-0.5 text-xs font-medium text-restrict"><span aria-hidden>!</span>Conditional on required controls</span>
-                    <ul className="mt-1 text-muted-foreground">{c.result!.restrictions.map((r) => <li key={r.code}>{r.label}</li>)}</ul>
-                    {c.result!.controls.length > 0 && <div className="text-muted-foreground">{c.result!.controls.length} required control{c.result!.controls.length > 1 ? "s" : ""} — {renderLink(c, "view")}</div>}
-                  </div>
-                )}</td>
+                <td className="min-w-56 px-3 py-2 text-[13px]">
+                  {c.result!.restrictions.length > 0 ? (
+                    <div>
+                      <span className="inline-flex items-center gap-1 rounded border border-restrict/40 bg-restrict-soft px-1.5 py-0.5 text-xs font-medium text-restrict"><span aria-hidden>!</span>Conditional on required controls</span>
+                      <ul className="mt-1 text-muted-foreground">{c.result!.restrictions.map((r) => <li key={r.code}>{r.label}</li>)}</ul>
+                    </div>
+                  ) : <div className="text-muted-foreground">No triggered safety restrictions</div>}
+                  {c.result!.controls.length > 0 ? (
+                    <div className="mt-1 text-muted-foreground">
+                      {c.result!.controls.length} required control{c.result!.controls.length > 1 ? "s" : ""} · status unverified — {renderLink(c, "view")}
+                    </div>
+                  ) : <div className="mt-1 text-muted-foreground">No required controls identified</div>}
+                </td>
               </tr>
             ))}
             {s.candidates.length === 0 && <tr><td colSpan={8} className="px-3 py-6 text-center text-muted-foreground">No ranked candidates yet.</td></tr>}
