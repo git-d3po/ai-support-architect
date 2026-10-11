@@ -155,3 +155,8 @@
   a { color: inherit !important; text-decoration: none !important; }
   * { -webkit-print-color-adjust: exact; print-color-adjust: exact; box-shadow: none !important; }
 }
+@media print {
+  /* Fallback where beforeprint is not fired: reveal disclosure content in supporting browsers. */
+  details::details-content { content-visibility: visible; display: contents; }
+  details > summary { list-style: none; font-weight: 600; }
+}

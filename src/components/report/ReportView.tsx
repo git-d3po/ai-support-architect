@@ -1,4 +1,4 @@
-import type { ReactNode } from "react";
+import { useEffect, useRef, type ReactNode } from "react";
 import type { Report } from "@/domain/report";
 import type { RoadmapEntry } from "@/domain/roadmap";
 import { DEP_CATEGORY_LABEL } from "@/domain/blueprint";
@@ -57,8 +57,17 @@ function PhaseTable({ rows, links }: { rows: RoadmapEntry[]; links: ReportLinks 
 
 export function ReportView({ r, links, sourceNote }: { r: Report; links: ReportLinks; sourceNote: string }) {
   const c = r.coverage;
+  const ref = useRef<HTMLElement>(null);
+  // Print the full report: open every disclosure before printing, restore the on-screen state afterwards.
+  useEffect(() => {
+    let opened: HTMLDetailsElement[] = [];
+    const before = () => { opened = [...(ref.current?.querySelectorAll("details:not([open])") ?? [])] as HTMLDetailsElement[]; opened.forEach((d) => { d.open = true; }); };
+    const after = () => { opened.forEach((d) => { d.open = false; }); opened = []; };
+    window.addEventListener("beforeprint", before); window.addEventListener("afterprint", after);
+    return () => { window.removeEventListener("beforeprint", before); window.removeEventListener("afterprint", after); };
+  }, []);
   return (
-    <article className="mx-auto max-w-5xl space-y-6">
+    <article ref={ref} className="mx-auto max-w-5xl space-y-6">
       <header className="space-y-2 border-b pb-5">
         <div className="flex flex-wrap items-center gap-2"><span className="eyebrow">Executive assessment report</span>{r.org.synthetic && <SyntheticBadge />}</div>
         <h1 className="text-3xl font-semibold">{r.org.name}</h1>
