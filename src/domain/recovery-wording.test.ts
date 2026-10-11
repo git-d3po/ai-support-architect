@@ -26,3 +26,10 @@ describe("password reset: declared vs verified recovery control", () => {
     expect(run(null)).toBe("insufficient_data");
   });
 });
+
+describe("policy/data/process index (control_readiness) unchanged", () => {
+  it("password reset index stays 92", () => {
+    const w = getNorthstarWorkflow("password-reset")!;
+    expect(assess(w.attrs, w.inputs).priority.control_readiness).toBe(92);
+  });
+});

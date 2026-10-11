@@ -71,6 +71,8 @@ Only an automation candidate gets a score. That requires: status assessed (not s
 priority = 0.40·ImpactIdx + 0.25·(100−effort) + 0.20·(100−risk) + 0.15·ControlReadiness
 ImpactIdx = clamp(net / 150 × 100, 0, 100)
 ControlReadiness = 100 × (policy_clarity + (4 − data_gap) + (4 − process_gap)) / 12
+
+Shown in the UI as **"Policy/data/process index"**; stored internally as `priority.control_readiness` (name kept for backward compatibility with saved snapshots). It measures assessment-derived planning factors only, not whether required safeguards are implemented or verified.
 ```
 Suitability is excluded from the score because it already gates the model. The priority never changes the model.
 
