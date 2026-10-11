@@ -138,7 +138,11 @@
   .panel-head { @apply flex items-center justify-between gap-3 border-b px-4 py-2.5; }
   .eyebrow { @apply text-xs font-medium uppercase tracking-[0.08em] text-muted-foreground; }
   .num { @apply font-mono tabular-nums; }
+  /* Navigational workflow names: visible but quiet underline so links read as links without hover. */
+  .link-subtle a { text-decoration-line: underline; text-decoration-color: color-mix(in oklab, var(--color-foreground) 30%, transparent); text-underline-offset: 3px; text-decoration-thickness: 1px; transition: text-decoration-color 150ms ease, color 150ms ease; }
+  .link-subtle a:hover { text-decoration-color: var(--color-foreground); }
 }
+@media (prefers-reduced-motion: reduce) { .link-subtle a { transition: none; } }
 
 /* Print: Executive report. Hides app chrome and interactive navigation, unclips tables, avoids awkward breaks. */
 @media print {

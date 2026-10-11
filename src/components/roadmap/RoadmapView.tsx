@@ -47,7 +47,7 @@ function EntryCard({ e, link, bpLink }: { e: RoadmapEntry; link: (id: string, c:
   return (
     <li className="space-y-2 p-4">
       <div className="flex flex-wrap items-start justify-between gap-2">
-        <h3 className="text-sm font-semibold">{link(e.id, e.name)}</h3>
+        <h3 className="link-subtle text-sm font-semibold">{link(e.id, e.name)}</h3>
         <ModelBadge model={e.model} />
       </div>
       <dl className="grid grid-cols-3 gap-2 text-[13px]">
@@ -136,7 +136,7 @@ export function RoadmapView({ items, link, bpLink, reassessLabel = "Open assessm
           {rm.entries.human_led.length === 0 ? <p className="p-4 text-sm text-muted-foreground">None.</p> : (
             <ul className="divide-y">{rm.entries.human_led.map((e) => (
               <li key={e.id} className="space-y-1 p-4 text-[13px]">
-                <div className="flex flex-wrap items-center justify-between gap-2"><span className="text-sm font-semibold">{link(e.id, e.name)}</span><ModelBadge model={e.model} /></div>
+                <div className="flex flex-wrap items-center justify-between gap-2"><span className="link-subtle text-sm font-semibold">{link(e.id, e.name)}</span><ModelBadge model={e.model} /></div>
                 <p><span className="font-medium">Why excluded: </span>{e.reason}</p>
                 {e.restrictions.length > 0 && <p className="text-muted-foreground">Restrictions: {e.restrictions.join(", ")}</p>}
                 <p className="text-muted-foreground">Next: {e.next_action}</p>

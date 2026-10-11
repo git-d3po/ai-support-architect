@@ -160,3 +160,13 @@ Evidence types are kept separate: **[auto]** vitest, **[live-backend]** real HTT
 **Accessibility:** touched components (report sequence, disclosures, print) keep native `<details>/<summary>` (keyboard-operable) and the existing heading structure (h2 sections, h3 stages). No real screen reader was available — screen-reader verification remains **unverified**. No WCAG conformance claim.
 
 **Script hygiene:** no secrets, tokens or passwords in `scripts/`; scripts are not imported by `src/` and are not routes. Fixed: `authz_test.ts` pre-run cleanup previously matched `sec-test-*` without a domain check and deleted any organization named "probe"; it now requires `sec-test-*@example.invalid` and never deletes by organization name.
+
+## Final UX quality pass (2026-10-11)
+
+Audit [browser] at 1440 / 768 / 390 px on overview, inventory, workflow detail, roadmap, blueprint, report, auth. Five refinements:
+1. **P0 — phone sideways scroll on Workflow inventory** (page was 627 px wide at 390 px). Cause: screen-reader-only "Recommended model:" labels in model badges were positioned relative to the page, escaping the table's scroll area. Fix: model badge is now `relative`. All 7 checked pages = viewport width at 390 and 768 px.
+2. **P1 — workflow names didn't look clickable** (bold text, underline only on hover) in inventory, overview candidates/chart list and roadmap cards. Added a quiet always-on underline (`.link-subtle`), stronger on hover, 150 ms colour transition, disabled under reduced motion.
+3. **P1 — score trio cramped on phones** (labels wrapped, "58" touched the edge). Suitability / risk / effort now stack below 640 px.
+4. **P1 — disabled save button gave no reason.** When nothing has changed since the saved revision it now reads "Saved · no changes". No persistence logic changed.
+Deferred: per-metric tooltips (existing inline rule/formula text already explains priority and net hours); empty roadmap lanes already say "No workflows in this phase".
+Regression: 87/87 [auto]; Northstar demo roadmap Now 4/408, Next 3/93, Later 5/115, Human-Led 3, simulation unsaved and reset, zero writes [browser]; axe WCAG A/AA 0 violations on 4 pages at 390 px; keyboard focus on workflow links shows outline and underline. Screen reader still unverified. Private-page visual check of the save label not re-run in the browser (logic-only change).
