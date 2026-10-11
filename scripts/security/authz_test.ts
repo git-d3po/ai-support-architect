@@ -27,8 +27,9 @@ const users = [
 
 async function main() {
   const pre = await admin.auth.admin.listUsers({ perPage: 200 });
-  for (const u of pre.data.users.filter((x) => x.email?.startsWith("sec-test-"))) { await admin.from("organizations").delete().eq("owner_user_id", u.id); await admin.auth.admin.deleteUser(u.id); }
-  await admin.from("organizations").delete().eq("name", "probe");
+  // Cleanup is scoped to disposable identities only (prefix AND reserved .invalid domain); never by org name.
+  const disposable = (e?: string) => !!e && e.startsWith("sec-test-") && e.endsWith("@example.invalid");
+  for (const u of pre.data.users.filter((x) => disposable(x.email))) { await admin.from("organizations").delete().eq("owner_user_id", u.id); await admin.auth.admin.deleteUser(u.id); }
   console.log("setup");
   const ids: string[] = [];
   for (const u of users) {
