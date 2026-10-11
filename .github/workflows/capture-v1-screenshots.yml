@@ -1,0 +1,41 @@
+# Runs once after this file is merged, captures ONLY public synthetic pages.
+# No credentials beyond GitHub's scoped contents permission; no auth or private data.
+name: Capture v1 portfolio screenshots
+on:
+  push:
+    branches: [main]
+    paths:
+      - ".github/workflows/capture-v1-screenshots.yml"
+permissions:
+  contents: write
+jobs:
+  capture:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Checkout release documentation branch
+        uses: actions/checkout@v4
+      - name: Install isolated Playwright Chromium
+        shell: bash
+        run: |
+          set -euo pipefail
+          npm install --prefix "$RUNNER_TEMP/v1-browser" --no-audit --no-fund --no-package-lock playwright@1.58.0
+          "$RUNNER_TEMP/v1-browser/node_modules/.bin/playwright" install --with-deps chromium
+      - name: Capture public Northstar demo and update README image references
+        shell: bash
+        env:
+          NODE_PATH: ${{ runner.temp }}/v1-browser/node_modules
+        run: node scripts/portfolio/capture-v1-screenshots.cjs
+      - name: Commit documentation assets without force pushing
+        shell: bash
+        run: |
+          set -euo pipefail
+          git add README.md docs/screenshots
+          if git diff --cached --quiet; then
+            echo "No screenshot changes to commit."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -m "docs(media): capture public synthetic v1 screens"
+          git push origin HEAD:main
