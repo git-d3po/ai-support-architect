@@ -10,33 +10,53 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as DemoWorkflowsIndexRouteImport } from './routes/demo.workflows.index'
+import { Route as DemoWorkflowsWorkflowIdRouteImport } from './routes/demo.workflows.$workflowId'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const DemoWorkflowsIndexRoute = DemoWorkflowsIndexRouteImport.update({
+  id: '/demo/workflows/',
+  path: '/demo/workflows/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DemoWorkflowsWorkflowIdRoute = DemoWorkflowsWorkflowIdRouteImport.update({
+  id: '/demo/workflows/$workflowId',
+  path: '/demo/workflows/$workflowId',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/demo/workflows/$workflowId': typeof DemoWorkflowsWorkflowIdRoute
+  '/demo/workflows/': typeof DemoWorkflowsIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/demo/workflows/$workflowId': typeof DemoWorkflowsWorkflowIdRoute
+  '/demo/workflows': typeof DemoWorkflowsIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/demo/workflows/$workflowId': typeof DemoWorkflowsWorkflowIdRoute
+  '/demo/workflows/': typeof DemoWorkflowsIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths: '/' | '/demo/workflows/$workflowId' | '/demo/workflows/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to: '/' | '/demo/workflows/$workflowId' | '/demo/workflows'
+  id: '__root__' | '/' | '/demo/workflows/$workflowId' | '/demo/workflows/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  DemoWorkflowsWorkflowIdRoute: typeof DemoWorkflowsWorkflowIdRoute
+  DemoWorkflowsIndexRoute: typeof DemoWorkflowsIndexRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -48,11 +68,27 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/demo/workflows/': {
+      id: '/demo/workflows/'
+      path: '/demo/workflows'
+      fullPath: '/demo/workflows/'
+      preLoaderRoute: typeof DemoWorkflowsIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/demo/workflows/$workflowId': {
+      id: '/demo/workflows/$workflowId'
+      path: '/demo/workflows/$workflowId'
+      fullPath: '/demo/workflows/$workflowId'
+      preLoaderRoute: typeof DemoWorkflowsWorkflowIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  DemoWorkflowsWorkflowIdRoute: DemoWorkflowsWorkflowIdRoute,
+  DemoWorkflowsIndexRoute: DemoWorkflowsIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
