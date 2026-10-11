@@ -28,9 +28,11 @@ export function AppHeader() {
           <Link to="/" className={linkCls} activeOptions={{ exact: true }} activeProps={active}>Overview</Link>
           <Link to="/demo/workflows" className={linkCls} activeProps={active}>Workflows</Link>
           <Link to="/demo/roadmap" className={linkCls} activeProps={active}>Roadmap</Link>
+          <Link to="/demo/report" className={linkCls} activeProps={active}>Report</Link>
           <span className="mx-2 h-4 w-px bg-border" aria-hidden />
           <Link to="/workspace" className={linkCls} activeProps={active}>My workspace</Link>
           {ready && session && <Link to="/workspace/roadmap" className={linkCls} activeProps={active}>My roadmap</Link>}
+          {ready && session && <Link to="/workspace/report" className={linkCls} activeProps={active}>My report</Link>}
         </nav>
         <div className="ml-auto flex items-center gap-3 text-sm">
           {ready && session ? (
