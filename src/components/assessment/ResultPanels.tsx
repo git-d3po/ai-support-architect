@@ -159,9 +159,9 @@ export function ImpactPanel({ result, attrs }: { result: AssessmentResult; attrs
           <div><span className="eyebrow block">Prioritization</span>{catLabel[p.category]}{p.control_process_improvement && p.category === "not_automation_candidate" ? " · control/process improvement" : ""}</div>
           <div><span className="eyebrow block">Priority</span><span className="num font-semibold">{p.score ?? "—"}</span></div>
           <div><span className="eyebrow block">Impact index</span><span className="num">{p.impact_index ?? "—"}</span></div>
-          <div><span className="eyebrow block">Control readiness</span><span className="num">{p.control_readiness ?? "—"}</span></div>
+          <div><span className="eyebrow block">Policy/data/process index</span><span className="num">{p.control_readiness ?? "—"}</span></div>
         </div>
-        <p className="text-[13px] text-muted-foreground">Priority = 0.40·impact index + 0.25·(100−effort) + 0.20·(100−risk) + 0.15·control readiness. Impact index caps at {THRESHOLDS.impactCapHours} net h. Weights are uncalibrated v1 design assumptions.</p>
+        <p className="text-[13px] text-muted-foreground">Priority = 0.40·impact index + 0.25·(100−effort) + 0.20·(100−risk) + 0.15·policy/data/process index. Policy/data/process index (0–100) combines assessment ratings for policy clarity, data readiness and process maturity. It does not measure whether required safeguards are implemented or independently verified. Impact index caps at {THRESHOLDS.impactCapHours} net h. Weights are uncalibrated v1 design assumptions.</p>
       </div>
     </section>
   );
