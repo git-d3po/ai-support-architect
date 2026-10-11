@@ -6,7 +6,19 @@ AI Support Automation Architect is a B2B decision-support application for suppor
 
 The product is built with Lovable and uses a deterministic, versioned TypeScript decision engine. The public **Northstar Cloud** environment contains entirely synthetic data; signed-in users can assess and save workflows in separate private workspaces.
 
-**Project status:** v1 release candidate (October 2026). A public application URL can be added after publication.
+**Status:** Published v1.0.0 portfolio release (11 October 2026). **[Try the live synthetic demo](https://ai-support-architect.lovable.app/)**.
+
+**Frozen application code:** [commit `3198568`](https://github.com/git-d3po/ai-support-architect/commit/31985682460e5a136a262087dbf340d4e2ab3cf7). Later documentation commits do not change the accepted software snapshot. The GitHub repository remains **private**; the public demo does not expose authenticated workspace data or grant access to the source.
+
+## Product tour and engineering evidence
+
+[Live Overview](https://ai-support-architect.lovable.app/) · [Workflow inventory](https://ai-support-architect.lovable.app/demo/workflows) · [Roadmap](https://ai-support-architect.lovable.app/demo/roadmap) · [Executive Report](https://ai-support-architect.lovable.app/demo/report)
+
+A good walkthrough starts with the synthetic portfolio, opens **Password reset** to understand the deterministic-versus-AI boundary for account access, examines its proposed Blueprint, then compares **Now / Next / Later** actions and the report's Sections E–I.
+
+**Engineering documentation:** [Architecture and case study](docs/CASE_STUDY.md) · [Release evidence](docs/RELEASE_EVIDENCE.md) · [Known limitations](docs/KNOWN_LIMITATIONS.md) · [Release notes](docs/releases/v1.0.0.md) · [Screenshot capture manifest](docs/screenshots/README.md).
+
+Ten final screenshots from the public synthetic demo are provided as a separate portfolio image pack. They have not yet been uploaded as binary repository assets, so this README deliberately does not contain broken image links. The live demo itself remains directly accessible.
 
 ## Product workflow
 
@@ -51,15 +63,15 @@ Its estimated handling-time opportunity is **755 gross hours minus 139 review ho
 
 ## Validation evidence
 
-At the October 2026 v1 release-candidate checkpoint, the project documented:
+At the October 2026 v1 freeze checkpoint, the evidence is:
 
-- **87/87 automated regression tests** passing.
-- **32/32 live request-tampering checks** rejected unauthorized or manipulated requests.
-- Authenticated cross-user isolation, immutable snapshots, concurrency and stale-result behavior checked in earlier browser/backend runs.
-- Public-demo changes verified as unsaved; private assessment-to-roadmap-to-report flows exercised.
-- Email confirmation and Google sign-in manually verified by the project owner.
+- **106/106 regression tests passed across ten files**, verified by [GitHub Actions on the frozen commit](https://github.com/git-d3po/ai-support-architect/actions/runs/38168651593).
+- **Production build and TypeScript check passed** in Lovable's reported final verification. GitHub CI runs tests only; it does not certify the build or lint.
+- **Full lint still fails**: 1,570 pre-existing errors and nine warnings, predominantly formatting violations. The final phase-aware correction introduced zero new lint debt relative to the preceding 1,571-error baseline.
+- **Historical** controlled validation included 38/38 backend authorization and 32/32 forged-request scenarios using disposable identities, as recorded in `TESTING.md`.
+- User-supplied screenshots of the published demo display the accepted phase-aware Roadmap, warnings and executive reporting; final interactive print, phone and signed-in workflows were not comprehensively repeated.
 
-These are **historical, reported verification results**, not continuously running certifications. The latest executed results and limitations are recorded in `TESTING.md` and `RELEASE.md`. Scoring weights and thresholds are explicitly **uncalibrated heuristics**; a comprehensive real screen-reader interaction test has not been completed.
+These are evidence of a **portfolio-quality decision-support demonstration**, not a security certification, independently validated operational benefit, or full accessibility audit. Scoring weights remain uncalibrated, and real screen-reader interaction remains unverified. See [Release evidence](docs/RELEASE_EVIDENCE.md) and [Known limitations](docs/KNOWN_LIMITATIONS.md).
 
 ## Run and test locally
 
@@ -95,4 +107,4 @@ The lightweight GitHub Actions workflow runs the unit/regression suite without p
 
 Changes pushed to the connected `main` branch synchronize with Lovable. Preserve published Git history; do not force-push, rewrite or squash existing pushed commits.
 
-**Built with Lovable**, with deliberate product requirements, deterministic architecture, evaluation scenarios and documented review/iteration. No open-source reuse license has been granted at this stage.
+**Built using Lovable**, with documented product requirements, deterministic domain architecture, safety restrictions, evaluation scenarios and implementation reviews. The repository remains private, and no open-source reuse license has been granted.
