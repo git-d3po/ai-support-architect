@@ -58,8 +58,16 @@ export function RecommendationPanel({ result }: { result: AssessmentResult }) {
         </div>
         <div className="flex items-start gap-2 rounded bg-surface p-3 text-sm">
           <ArrowRight className="mt-0.5 size-4 shrink-0 text-primary" />
-          <div><span className="eyebrow block">Assessment-level guidance</span>{result.next_step.text}
-            {(result.model === "ai_assisted" || result.model === "ai_autonomous") && <span className="mt-1 block text-[13px] text-muted-foreground">Implementation timing depends on the portfolio Roadmap. This guidance does not authorize a pilot or deployment.</span>}</div>
+          <div>
+            <span className="eyebrow block">Assessment-level guidance</span>
+            {result.next_step.text}
+            {(result.model === "ai_assisted" || result.model === "ai_autonomous") && (
+              <span className="mt-1 block text-[13px] text-muted-foreground">
+                Implementation timing depends on the portfolio Roadmap. This guidance does not
+                authorize a pilot or deployment.
+              </span>
+            )}
+          </div>
         </div>
       </div>
     </section>
