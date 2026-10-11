@@ -16,9 +16,16 @@ dist-ssr
 .nitro
 *.local
 
+# Local environment files and credentials
+# NOTE: Existing tracked .env remains tracked until intentionally removed.
+# Ignore rules prevent NEW untracked env files from being added accidentally.
+.env
+.env.*
+!.env.example
+.dev.vars
+
 # Wrangler / Cloudflare
 .wrangler/
-.dev.vars
 
 # Editor directories and files
 .vscode/*
