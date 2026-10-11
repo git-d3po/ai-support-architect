@@ -15,6 +15,13 @@
       "when": 1791729668190,
       "tag": "0001_revoke_default_grants",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1791730845456,
+      "tag": "0002_stale_version_errcode",
+      "breakpoints": true
     }
   ]
 }

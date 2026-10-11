@@ -18,12 +18,12 @@ export function AppHeader() {
   }
   return (
     <header className="sticky top-0 z-20 border-b bg-card/95 backdrop-blur">
-      <div className="mx-auto flex h-12 max-w-[1400px] items-center gap-6 px-6">
-        <Link to="/" className="flex items-center gap-2 text-sm font-semibold">
+      <div className="mx-auto flex min-h-12 max-w-[1400px] flex-wrap items-center gap-x-6 gap-y-1 px-4 py-2 sm:px-6">
+        <Link to="/" className="flex items-center gap-2 whitespace-nowrap text-sm font-semibold">
           <span className="grid size-6 place-items-center rounded bg-primary text-[10px] font-bold text-primary-foreground">SA</span>
           Support Automation Architect
         </Link>
-        <nav className="flex items-center gap-1" aria-label="Primary">
+        <nav className="order-3 flex w-full items-center gap-1 overflow-x-auto md:order-none md:w-auto" aria-label="Primary">
           <span className="eyebrow mr-1">Demo</span>
           <Link to="/" className={linkCls} activeOptions={{ exact: true }} activeProps={active}>Overview</Link>
           <Link to="/demo/workflows" className={linkCls} activeProps={active}>Workflows</Link>
@@ -33,7 +33,7 @@ export function AppHeader() {
         <div className="ml-auto flex items-center gap-3 text-sm">
           {ready && session ? (
             <>
-              <span className="text-xs text-muted-foreground">{session.user.email}</span>
+              <span className="hidden text-xs text-muted-foreground sm:inline">{session.user.email}</span>
               <button onClick={signOut} className="rounded border px-2.5 py-1 text-xs hover:bg-accent">Sign out</button>
             </>
           ) : ready ? (

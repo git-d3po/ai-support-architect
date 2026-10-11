@@ -6,7 +6,8 @@
 - [x] Design system, shell, demo overview/inventory/detail/simulation
 - [x] Cloud migration (tables, grants, RLS, triggers), service role confirmed present
 - [x] Auth, workspace CRUD, saveAssessment
-- [ ] Signed-in two-user authorization + concurrency checks — blocked: needs real test accounts (email confirmation)
+- [x] Signed-in two-user authorization + concurrency checks (38/38)
+- [x] Phase 1 verification pass: 3 defects fixed (stale-save hang, workflow-details save, mobile overflow)
 
 Phase 2 (later): Roadmap view, dependency view, org impact, richer what-if.
 Phase 3 (later): Executive report, a11y pass, demo hardening, PDF export.

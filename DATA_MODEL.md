@@ -1,6 +1,6 @@
 # Data model
 
-Migrations: `drizzle/migrations/0000_*.sql`, `0001_revoke_default_grants.sql`.
+Migrations: `drizzle/migrations/0000_*.sql`, `0001_revoke_default_grants.sql`, `0002_stale_version_errcode.sql`.
 
 ## Tables
 - **organizations**: owned by `owner_user_id` (plain uuid = auth user id). Constraints: name length and non-negative counts.
@@ -20,7 +20,7 @@ Migrations: `drizzle/migrations/0000_*.sql`, `0001_revoke_default_grants.sql`.
 - Trigger `assessment_snapshots_forbid_update` rejects every UPDATE, for every role.
 - Trigger `assessment_snapshots_before_insert` requires all of:
   - the snapshot owner equals the workflow owner;
-  - `workflow_attributes_version` equals the current version (otherwise errcode 40001);
+  - `workflow_attributes_version` equals the current version (otherwise errcode P0409 (not 40001: the Data API auto-retries serialization failures));
   - `revision` equals the current max + 1 (otherwise errcode 23505).
 - Default Data API privileges were explicitly revoked in migration 0001. Before that, anon had an unintended INSERT privilege on snapshots; the insert trigger still blocked it.
 
@@ -30,7 +30,7 @@ Migrations: `drizzle/migrations/0000_*.sql`, `0001_revoke_default_grants.sql`.
 3. The workflow is re-read with the user-scoped client, so RLS applies. Ownership is re-checked against `userId`; failure returns not_found.
 4. Consistency validation runs; failure returns `invalid` with field errors.
 5. `assess()` recomputes results on the server.
-6. One INSERT with the service-role client, which is dynamically imported inside the handler and never reaches the browser. A single statement is atomic: the save either fully persists or nothing does. Error 23505 or 40001 is returned as `conflict`.
+6. One INSERT with the service-role client, which is dynamically imported inside the handler and never reaches the browser. A single statement is atomic: the save either fully persists or nothing does. Error 23505 or P0409 is returned as `conflict`.
 
 ## Lifecycle
 - The current snapshot is the one with max(revision).

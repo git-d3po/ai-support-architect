@@ -11,3 +11,6 @@
 9. **Provenance is recorded per assessment** (observed vs estimate) in Phase 1, not per field. Per-field provenance is deferred.
 10. **The workspace inventory lives on `/workspace`** rather than a separate `/workspace/workflows` page, to avoid an extra list route.
 11. **Fonts: IBM Plex Sans/Mono**, with muted semantic colors per operating model.
+12. **Stale-version conflicts use SQLSTATE P0409, not 40001.** The Data API auto-retries serialization failures (40001), so using it made stale saves hang.
+13. **Concurrency contract: first writer wins.** A second save on the same base revision gets a conflict and must reload. Ordering by unique revision is always deterministic.
+14. **Security verification uses throwaway pre-confirmed users** created with admin tooling (`scripts/security/authz_test.ts`), so the real sign-up and confirmation flow stays unchanged and no test bypass exists in the app.

@@ -180,7 +180,7 @@ export const saveAssessment = createServerFn({ method: "POST" })
       .select("id, workflow_id, revision, workflow_attributes_version, scoring_version, inputs, results, provenance, created_at")
       .single();
     if (ie) {
-      if (ie.code === "23505" || ie.code === "40001")
+      if (ie.code === "23505" || ie.code === "P0409")
         return { ok: false, kind: "conflict", message: "This assessment or workflow changed elsewhere. Reload and try again." };
       console.error("saveAssessment insert failed", ie.code);
       throw new Error("Could not save assessment");
