@@ -13,5 +13,7 @@
 
 - [x] Phase 2A derived roadmap (demo + workspace)
 
+- [x] Phase 2B implementation blueprints + shared dependencies
+
 Phase 2 (later): dependency view, org impact, richer what-if.
 Phase 3 (later): Executive report, a11y pass, demo hardening, PDF export.

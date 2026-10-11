@@ -33,7 +33,7 @@ function WorkspaceRoadmap() {
         <p className="mt-1 text-sm text-muted-foreground">Derived from your latest saved assessments. Stale or incomplete results are listed separately and not counted.</p>
       </div>
       {rows.length === 0 ? <p className="panel p-8 text-center text-sm text-muted-foreground">No workflows yet.</p> : (
-        <RoadmapView items={rows} link={(id, c) => <Link to="/workspace/workflows/$workflowId" params={{ workflowId: id }} className="hover:underline">{c}</Link>} />
+        <RoadmapView bpLink={(id, c) => <Link to="/workspace/blueprint/$workflowId" params={{ workflowId: id }} className="hover:underline">{c}</Link>} items={rows} link={(id, c) => <Link to="/workspace/workflows/$workflowId" params={{ workflowId: id }} className="hover:underline">{c}</Link>} />
       )}
     </div>
   );

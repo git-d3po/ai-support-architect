@@ -9,6 +9,7 @@ export function toRows(workflows: WorkflowDTO[], latest: Record<string, Snapshot
     const result = s?.results ?? null;
     return {
       id: w.id, name: w.name, category: w.category, attrs: w.attrs, result,
+      inputs: s?.inputs ?? null, required_systems: w.required_systems, revision: s?.revision ?? null,
       status: deriveStatus(result, s?.workflow_attributes_version ?? null, w.attributes_version, s?.scoring_version ?? null),
     };
   });

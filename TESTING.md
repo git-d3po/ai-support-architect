@@ -99,3 +99,10 @@ Script: `scripts/security/authz_test.ts`. It needs the server-only service-role 
 **Fix:** private Needs-reassessment link said "Re-assess" for never-assessed workflows; now "Open assessment".
 
 **Still not tested:** email-confirmation signup, Google sign-in, hand-crafted live RPC forgery (beyond direct-URL access), screen-reader testing. No production-wide security certification claimed.
+
+## Phase 2B blueprints (2026-10-11)
+**Automated:** 69/69 passed (56 existing + 13 in `src/domain/blueprint.test.ts`: per-model blueprints, deterministic has no AI, AI-assisted human authority and refund approval, autonomous limits/escalation, Human-Led no automation, mandatory safeguards + pilot block, provenance, unspecified inputs, deduplication, shared-dependency counts, stale/incomplete, determinism, Northstar baseline 4/6/2/3, 755/616, Now 4 / Next 3 / Later 5 / HL 3 and blueprint phase = roadmap phase).
+**Browser (demo):** Overview → Roadmap → Password reset blueprint via keyboard Enter; shows "not an implemented or validated automation", no AI responsibilities, "Not ready to pilot". Refund, product how-to, suspicious activity matrices checked. Shared-dependency link → correct blueprint. 0 non-GET requests. No overflow at 375px.
+**Authenticated (disposable users, deleted after):** private blueprint shows saved revision 1, model and Next phase matching the assessment; after a volume change shows "No current blueprint" with no model and a refresh link; user B opening A's blueprint URL → "Workflow not found", no data. First run's private check failed because the script navigated before the save finished; re-run passed.
+**Script review:** `scripts/security/qa_users.ts` uses env vars only, random passwords written only to /tmp, outside `src/` (not bundled or routed); cleanup now limited to `qa-2a-*@example.invalid` users.
+**Not tested:** email-confirmation signup, Google sign-in, hand-crafted RPC forgery, screen-reader testing.

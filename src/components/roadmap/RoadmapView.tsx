@@ -3,6 +3,8 @@ import type { PortfolioItem } from "@/domain/portfolio";
 import { buildRoadmap, PHASE_RULES, SECTION_LABEL, type Lane, type RoadmapEntry } from "@/domain/roadmap";
 import { ModelBadge } from "@/components/assessment/ModelBadge";
 import { cn } from "@/lib/utils";
+import { sharedDependencies, DEP_CATEGORY_LABEL } from "@/domain/blueprint";
+import { ProvenanceBadge } from "@/components/blueprint/BlueprintView";
 
 const fmt = (n: number) => n.toLocaleString("en-US", { maximumFractionDigits: 0 });
 
@@ -41,7 +43,7 @@ function ControlsBlock({ e }: { e: RoadmapEntry }) {
   );
 }
 
-function EntryCard({ e, link }: { e: RoadmapEntry; link: (id: string, c: ReactNode) => ReactNode }) {
+function EntryCard({ e, link, bpLink }: { e: RoadmapEntry; link: (id: string, c: ReactNode) => ReactNode; bpLink: (id: string, c: ReactNode) => ReactNode }) {
   return (
     <li className="space-y-2 p-4">
       <div className="flex flex-wrap items-start justify-between gap-2">
@@ -60,12 +62,14 @@ function EntryCard({ e, link }: { e: RoadmapEntry; link: (id: string, c: ReactNo
       )}
       <ControlsBlock e={e} />
       <p className="rounded bg-surface px-2 py-1.5 text-[13px]"><span className="font-medium">Next action: </span>{e.next_action}</p>
+      <p className="text-[13px]">{bpLink(e.id, <span className="font-medium underline">View implementation blueprint</span>)}</p>
     </li>
   );
 }
 
-export function RoadmapView({ items, link, reassessLabel = "Open assessment" }: { items: PortfolioItem[]; link: (id: string, children: ReactNode) => ReactNode; reassessLabel?: string }) {
+export function RoadmapView({ items, link, bpLink, reassessLabel = "Open assessment" }: { items: PortfolioItem[]; link: (id: string, children: ReactNode) => ReactNode; bpLink: (id: string, children: ReactNode) => ReactNode; reassessLabel?: string }) {
   const rm = buildRoadmap(items);
+  const shared = sharedDependencies(items);
   const lanes: Lane[] = ["now", "next", "later"];
   return (
     <div className="space-y-5">
@@ -91,11 +95,37 @@ export function RoadmapView({ items, link, reassessLabel = "Open assessment" }: 
               <p className="mt-1 text-[13px] text-muted-foreground">{LANE_HINT[l]}</p>
             </div>
             {rm.entries[l].length === 0 ? <p className="p-4 text-sm text-muted-foreground">No workflows in this phase.</p> : (
-              <ul className="divide-y">{rm.entries[l].map((e) => <EntryCard key={e.id} e={e} link={link} />)}</ul>
+              <ul className="divide-y">{rm.entries[l].map((e) => <EntryCard key={e.id} e={e} link={link} bpLink={bpLink} />)}</ul>
             )}
           </section>
         ))}
       </div>
+
+      <section aria-labelledby="sec-shared" className="panel">
+        <div className="border-b px-4 py-3">
+          <h2 id="sec-shared" className="text-base font-semibold">Shared dependencies</h2>
+          <p className="mt-1 text-[13px] text-muted-foreground">Required or identified across current assessments. Each workflow counted once per category. No completion status is tracked.</p>
+        </div>
+        {shared.length === 0 ? <p className="p-4 text-sm text-muted-foreground">No current assessments.</p> : (
+          <ul className="divide-y">{shared.map((d) => {
+            const auto = d.workflows.filter((w) => !w.humanLed), hl = d.workflows.filter((w) => w.humanLed);
+            return (
+              <li key={d.category} className="grid gap-2 p-4 text-[13px] md:grid-cols-[14rem_1fr]">
+                <div>
+                  <h3 className="text-sm font-semibold">{DEP_CATEGORY_LABEL[d.category]}</h3>
+                  <p className="num text-muted-foreground">{d.workflows.length} workflow{d.workflows.length === 1 ? "" : "s"}</p>
+                  <div className="mt-1 flex flex-wrap gap-1">{d.provenance.map((p) => <ProvenanceBadge key={p} p={p} />)}</div>
+                </div>
+                <div className="space-y-1">
+                  <p><span className="font-medium">Automation candidates: </span>{auto.length ? auto.map((w, i) => <span key={w.id}>{i > 0 && ", "}{bpLink(w.id, w.name)}</span>) : "—"}</p>
+                  {hl.length > 0 && <p className="text-muted-foreground"><span className="font-medium">Human-Led (not automation): </span>{hl.map((w, i) => <span key={w.id}>{i > 0 && ", "}{bpLink(w.id, w.name)}</span>)}</p>}
+                  <p><span className="font-medium">Suggested action: </span>{d.action}</p>
+                </div>
+              </li>
+            );
+          })}</ul>
+        )}
+      </section>
 
       <div className="grid gap-4 lg:grid-cols-2">
         <section aria-labelledby="sec-human" className="panel">
@@ -110,6 +140,7 @@ export function RoadmapView({ items, link, reassessLabel = "Open assessment" }: 
                 <p><span className="font-medium">Why excluded: </span>{e.reason}</p>
                 {e.restrictions.length > 0 && <p className="text-muted-foreground">Restrictions: {e.restrictions.join(", ")}</p>}
                 <p className="text-muted-foreground">Next: {e.next_action}</p>
+                <p>{bpLink(e.id, <span className="font-medium underline">View blueprint</span>)}</p>
               </li>
             ))}</ul>
           )}

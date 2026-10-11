@@ -13,15 +13,15 @@ if (mode === "create") {
   writeFileSync("/tmp/browser/auth/creds.json", JSON.stringify(out)); console.log("created", out.length);
 } else if (mode === "inspect") {
   const { data: u } = await admin.auth.admin.listUsers({ perPage: 200 });
-  for (const x of u.users.filter((x) => x.email?.startsWith("qa-2a-"))) {
+  for (const x of u.users.filter((x) => x.email?.startsWith("qa-2a-") && x.email.endsWith("@example.invalid"))) {
     const { data: s } = await admin.from("assessment_snapshots").select("revision,workflow_attributes_version,results->model,results->priority->score,created_at").eq("owner_user_id", x.id).order("revision");
     console.log(x.email.slice(0, 8), JSON.stringify(s));
   }
 } else {
   const { data: u } = await admin.auth.admin.listUsers({ perPage: 200 });
-  for (const x of u.users.filter((x) => x.email?.startsWith("qa-2a-"))) {
+  for (const x of u.users.filter((x) => x.email?.startsWith("qa-2a-") && x.email.endsWith("@example.invalid"))) {
     await admin.from("organizations").delete().eq("owner_user_id", x.id); await admin.auth.admin.deleteUser(x.id);
   }
   const { data: u2 } = await admin.auth.admin.listUsers({ perPage: 200 });
-  console.log("remaining qa users", u2.users.filter((x) => x.email?.startsWith("qa-2a-")).length);
+  console.log("remaining qa users", u2.users.filter((x) => x.email?.startsWith("qa-2a-") && x.email.endsWith("@example.invalid")).length);
 }
