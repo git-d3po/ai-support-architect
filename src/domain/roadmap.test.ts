@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { buildRoadmap, planEntry } from "./roadmap";
+import { buildRoadmap, planEntry, PHASE_ACTION } from "./roadmap";
 import { summarize, type PortfolioItem } from "./portfolio";
 import { getDemoRows } from "@/lib/demo";
 import type { AssessmentResult } from "./types";
@@ -104,5 +104,77 @@ describe("roadmap planning", () => {
     expect(at(50, 59)).toBe("next");
     expect(at(49, 10)).toBe("later");
     expect(at(90, 60)).toBe("later");
+  });
+});
+
+describe("phase-aware next action", () => {
+  const PILOT = /\bpilot (agent-assist|with)|run a bounded pilot/i;
+  const at = (id: string, p: number, e: number, net?: number) => {
+    const it = clone(find(id));
+    it.result!.priority.score = p; it.result!.scores.effort = e;
+    if (net != null) it.result!.impact.net_hours = net;
+    return planEntry(it);
+  };
+
+  it("Now unrestricted keeps safeguard-gated pilot step", () => {
+    const e = planEntry(find("product-how-to"));
+    expect([e.section, e.model, e.priority]).toEqual(["now", "ai_autonomous", 88]);
+    expect(e.required_controls.length).toBeGreaterThan(0);
+    expect(e.next_action).toMatch(/^After the implementing team establishes and verifies required safeguards/);
+  });
+  it("Now restricted keeps restriction action", () => {
+    const e = planEntry(find("password-reset"));
+    expect([e.section, e.model, e.priority, e.required_controls.length]).toEqual(["now", "deterministic", 79, 4]);
+    expect(e.next_action).toBe("Prepare and validate the verified recovery control before any automation build.");
+  });
+  it("Next unrestricted gets preparation guidance, no pilot", () => {
+    const e = planEntry(find("api-authentication-error"));
+    expect(e.section).toBe("next");
+    expect(e.next_action).toBe(PHASE_ACTION.next);
+    expect(e.required_controls.length).toBeGreaterThan(0);
+  });
+  it("Next restricted keeps restriction action", () => {
+    const e = planEntry(find("billing-address-update"));
+    expect(e.section).toBe("next");
+    expect(e.next_action).toMatch(/authorization and data-permission/);
+  });
+  it("Later unrestricted gets reassessment guidance", () => {
+    for (const id of ["failed-login", "plan-downgrade"]) {
+      const e = planEntry(find(id));
+      expect(e.section).toBe("later");
+      expect(e.next_action).toBe(PHASE_ACTION.later);
+      expect(e.next_action).not.toMatch(PILOT);
+    }
+  });
+  it("Later restricted keeps restriction action", () => {
+    for (const id of ["duplicate-charge", "refund-request"]) {
+      const e = planEntry(find(id));
+      expect(e.section).toBe("later");
+      expect(e.next_action).toMatch(/approval thresholds/);
+    }
+  });
+  it("non-positive net → Later with unfavorable-impact guidance, value kept", () => {
+    for (const net of [0, -12.5]) {
+      const e = at("api-authentication-error", 90, 10, net);
+      expect(e.section).toBe("later");
+      expect(e.net_hours).toBe(net);
+      expect(e.next_action).toBe(PHASE_ACTION.later_nonpositive);
+    }
+  });
+  it("boundary cases: action follows phase", () => {
+    const cases: [number, number, string][] = [[70, 39, "now"], [69, 39, "next"], [70, 40, "next"], [50, 59, "next"], [49, 10, "later"], [90, 60, "later"]];
+    for (const [p, ef, lane] of cases) {
+      const e = at("api-authentication-error", p, ef);
+      expect(e.section).toBe(lane);
+      if (lane === "now") expect(e.next_action).toMatch(/^After the implementing team/);
+      else expect(e.next_action).toBe(lane === "next" ? PHASE_ACTION.next : PHASE_ACTION.later);
+    }
+  });
+  it("no Next/Later entry carries a pilot instruction; deterministic output", () => {
+    const a = buildRoadmap(rows()), b = buildRoadmap(rows());
+    expect(a).toEqual(b);
+    for (const e of [...a.entries.next, ...a.entries.later]) expect(e.next_action).not.toMatch(PILOT);
+    expect([a.totals.now.count, a.totals.next.count, a.totals.later.count]).toEqual([4, 3, 5]);
+    expect([Math.round(a.totals.now.net), Math.round(a.totals.next.net), Math.round(a.totals.later.net)]).toEqual([408, 93, 115]);
   });
 });
