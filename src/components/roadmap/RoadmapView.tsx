@@ -31,7 +31,7 @@ function ControlsBlock({ e }: { e: RoadmapEntry }) {
         <span className="inline-flex items-center gap-1 rounded border border-restrict/40 bg-restrict-soft px-1.5 py-0.5 text-xs font-medium text-restrict">
           <span aria-hidden>!</span>Conditional on required controls
         </span>
-      ) : <span className="text-muted-foreground">No mandatory restrictions</span>}
+      ) : <span className="text-muted-foreground">No triggered safety restrictions</span>}
       {e.restrictions.length > 0 && <div className="text-muted-foreground">Restrictions: {e.restrictions.join(", ")}</div>}
       {e.required_controls.length > 0 && (
         <details>

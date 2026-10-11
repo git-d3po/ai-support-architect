@@ -33,3 +33,4 @@ Blueprints and shared dependencies are recomputed from the authoritative assessm
 
 ## Terminology
 - **"Control readiness" displayed as "Policy/data/process index".** The value is computed only from policy clarity, data readiness and process maturity ratings and holds no evidence of implemented safeguards; the old label implied otherwise. Internal field `control_readiness`, formula, weights and scoring version unchanged, so saved snapshots need no migration.
+- **Pilot next steps require verified safeguards first.** `N_PILOT_ASSIST` / `N_BOUNDED_PILOT` text now opens with "After the implementing team establishes and verifies required safeguards…", since the app holds no evidence controls exist. Roadmap label "No mandatory restrictions" → "No triggered safety restrictions" to separate triggered restrictions from required controls. Codes, rules and snapshots unchanged; saved snapshots keep the wording they were saved with.

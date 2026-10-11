@@ -111,8 +111,8 @@ const MODEL_CONTROLS: Record<Exclude<ModelOutcome, "insufficient_data">, Explana
 
 const NEXT_STEP: Record<ModelOutcome, ExplanationItem> = {
   deterministic: { code: "N_DESIGN_RULES", text: "Specify the rule flow and required integrations." },
-  ai_assisted: { code: "N_PILOT_ASSIST", text: "Pilot agent-assist with a review loop and measure acceptance rate." },
-  ai_autonomous: { code: "N_BOUNDED_PILOT", text: "Run a bounded pilot with handoff and QA sampling before scaling." },
+  ai_assisted: { code: "N_PILOT_ASSIST", text: "After the implementing team establishes and verifies required safeguards, pilot agent-assist with a review loop and measure acceptance rate." },
+  ai_autonomous: { code: "N_BOUNDED_PILOT", text: "After the implementing team establishes and verifies required safeguards, run a bounded pilot with handoff and QA sampling before scaling." },
   human_led: { code: "N_IMPROVE_PROCESS", text: "Improve the human process and controls; reassess once policy and risk change." },
   insufficient_data: { code: "N_COMPLETE", text: "Complete the missing assessment inputs." },
 };
