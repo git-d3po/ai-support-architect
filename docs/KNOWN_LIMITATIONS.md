@@ -1,6 +1,6 @@
 # Known limitations — AI Support Automation Architect v1.0.0
 
-**Release scope:** A public, synthetic, deterministic decision-support demonstration. The frozen code is [commit 3198568](https://github.com/git-d3po/ai-support-architect/commit/31985682460e5a136a262087dbf340d4e2ab3cf7). The repository remains private.
+**Release scope:** A public, synthetic, deterministic decision-support demonstration. The frozen code is [commit 3198568](https://github.com/git-d3po/ai-support-architect/commit/31985682460e5a136a262087dbf340d4e2ab3cf7). The source repository is publicly viewable; no open-source license is granted.
 
 | Area | Verified boundary / open limitation |
 | --- | --- |
@@ -15,7 +15,7 @@
 | **GitHub lint** | Full `eslint .` **fails** with **1,570 errors and 9 warnings** at freeze. 1,567 errors are formatting-style and three are previously present script/generated-file rules. The final change introduced **zero net lint regressions** versus the earlier 1,571/9 baseline. Do not claim a green lint gate. |
 | **CI** | GitHub Actions runs the regression tests, not build, typecheck or lint. The successful production build and typecheck were reported by Lovable's separate verification run. |
 | **Source/deployment match** | Live desktop screenshots show guidance consistent with source; the app does not expose a signed deployed source commit, so source-to-deployment cryptographic equivalence has not been established. |
-| **Source sharing** | The GitHub repo is private with no open-source license. Public demo access does not grant permission to copy, modify or redistribute the source. |
+| **Source sharing** | The GitHub repository is publicly viewable for review but has no open-source license. Viewing the source or using the public demo does not grant permission to copy, modify or redistribute it. |
 
 ## Deferred work
 
