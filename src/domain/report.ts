@@ -5,7 +5,7 @@
  */
 import { summarize, type PortfolioItem } from "./portfolio";
 import { buildRoadmap, type RoadmapEntry } from "./roadmap";
-import { analyzeDependencies, sharedDependencies, type SharedDependency } from "./blueprint";
+import { analyzeDependencies, sharedDependencies, PROVENANCE_LABEL, type SharedDependency } from "./blueprint";
 import { MODEL_LABEL, SCORING_VERSION, type OperatingModel, type RestrictionCode } from "./types";
 import { BLUEPRINT_VERSION } from "./blueprint";
 import { ROADMAP_VERSION } from "./roadmap";
@@ -117,22 +117,7 @@ export function buildReport(org: ReportOrg, items: PortfolioItem[], provenance?:
 
   const shared = sharedDependencies(items);
   const now = rm.entries.now;
-  const restrictedNow = now.filter((e) => e.restrictions.length > 0);
-  const sequence = {
-    define: [
-      now.length ? `Confirm scope, exceptions and process ownership for the Now candidates: ${now.map((e) => e.name).join(", ")}.` : "No Now candidates; confirm scope for the highest-priority Next candidates first.",
-      ...(unspecified.length ? [`Resolve ${unspecified.length} unspecified item(s) identified in the assessment (e.g. ${unspecified[0]!.text.toLowerCase()} for ${unspecified[0]!.name}).`] : []),
-    ],
-    prepare: [
-      ...restrictedNow.map((e) => `${e.name}: establish ${e.required_controls.length} required control(s) — ${e.dependency?.text ?? "see blueprint"}.`),
-      ...shared.filter((d) => d.workflows.filter((w) => !w.humanLed).length >= 2).slice(0, 3).map((d) => `Shared need across ${d.workflows.filter((w) => !w.humanLed).length} candidates: ${d.action}`),
-    ],
-    pilot: now.length
-      ? [`Pilot unrestricted Now candidates first${now.filter((e) => !e.restrictions.length).length ? ` (${now.filter((e) => !e.restrictions.length).map((e) => e.name).join(", ")})` : ""}, with human oversight and measured outcomes.`,
-         ...(restrictedNow.length ? [`Pilot restricted candidates (${restrictedNow.map((e) => e.name).join(", ")}) only after their mandatory controls are in place and verified.`] : [])]
-      : ["No pilot is proposed until a current Now candidate exists."],
-    expand: ["Consider broader operation only after pilot validation criteria are met and controls remain effective.", "Re-assess workflows when volume, action type, data access or policy change."],
-  };
+  const sequence = buildSequence(rm, current, unspecified, shared, items.length - current.length);
 
   const top = now.slice(0, 3);
   const summary: string[] = [];
@@ -165,4 +150,81 @@ export function buildReport(org: ReportOrg, items: PortfolioItem[], provenance?:
     roadmap: { now: rm.entries.now, next: rm.entries.next, later: rm.entries.later, humanLed: rm.entries.human_led, reassess: rm.entries.reassess, totals: rm.totals },
     risks, unspecified, shared, sequence, summary,
   };
+}
+
+type Sequence = Report["sequence"];
+const names = (es: { name: string }[]) => es.map((e) => e.name).join(", ");
+
+/**
+ * Deterministic Define/Prepare/Pilot/Expand guidance. Branches on which roadmap lanes actually contain
+ * current candidates, so it never references a nonexistent phase. Content comes only from roadmap entries
+ * (restrictions, required controls) and analyzeDependencies(); nothing is marked as implemented.
+ */
+export function buildSequence(
+  rm: ReturnType<typeof buildRoadmap>, current: PortfolioItem[],
+  unspecified: Report["unspecified"], shared: SharedDependency[], excluded: number,
+): Sequence {
+  const { now, next, later, human_led: hl } = rm.entries;
+  const unspecLine = unspecified.length
+    ? [`Resolve ${unspecified.length} unspecified item(s) identified in the assessment (e.g. ${unspecified[0]!.text.toLowerCase()} for ${unspecified[0]!.name}).`] : [];
+
+  if (!now.length && !next.length && !later.length) {
+    if (hl.length) return {
+      define: [`All current assessments are Human-Led (${names(hl)}). No automation implementation is proposed; review whether agent tooling or manual-process improvement is warranted.`, ...unspecLine],
+      prepare: ["No automation preparation is proposed: there are no automation candidates."],
+      pilot: ["No pilot is proposed: there are no automation candidates."],
+      expand: ["No expansion is proposed. Re-assess if volume, action type, data access or policy change."],
+    };
+    const na = "Not applicable until at least one current, complete assessment exists.";
+    return {
+      define: [excluded ? `No current, complete assessments. Complete or refresh the ${excluded} stale, incomplete or unassessed workflow(s) before planning implementation.` : "No workflows have been assessed. Add and assess workflows before planning implementation."],
+      prepare: [na], pilot: [na], expand: [na],
+    };
+  }
+
+  const lane = now.length ? "Now" : next.length ? "Next" : "Later";
+  const focus = now.length ? now : next.length ? next : later;
+  const byId = new Map(current.map((x) => [x.id, x]));
+  const valueGaps = focus.filter((e) => e.net_hours == null || e.net_hours <= 0);
+
+  const define: string[] = lane === "Now"
+    ? [`Confirm scope, exceptions, process ownership and approval boundaries for the Now candidates: ${names(focus)}.`]
+    : lane === "Next"
+      ? [`There are no Now candidates. Confirm scope, exceptions, process ownership and approval boundaries for the Next candidates: ${names(focus)}.`]
+      : [`Review deferred opportunities (${names(focus)}) and identify whether changes in required controls, implementation effort, or modeled business value would justify reassessment. No near-term automation implementation is currently recommended.`];
+  if (valueGaps.length) define.push(`Modeled net value is zero, negative or unavailable for ${names(valueGaps)}; confirm impact assumptions before further planning.`);
+  define.push(...unspecLine);
+
+  const prepare: string[] = [];
+  if (lane === "Later") prepare.push("Only if reassessment is pursued, these prerequisites from the assessment would apply:");
+  for (const e of focus.slice(0, 6)) {
+    const x = byId.get(e.id);
+    const deps = x ? analyzeDependencies({ model: x.result!.model, restrictions: x.result!.restrictions.map((r) => r.code), attrs: x.attrs, inputs: x.inputs ?? null, required_systems: x.required_systems ?? [] })
+      .filter((d) => d.provenance !== "unspecified") : [];
+    const parts: string[] = [];
+    if (e.required_controls.length) parts.push(`establish ${e.required_controls.length} required control(s), status unverified: ${e.required_controls.map((c) => c.text.replace(/\.$/, "")).join("; ")}`);
+    const other = deps.filter((d) => d.provenance !== "mandatory");
+    if (other.length) parts.push(`address ${other.map((d) => `${d.text.replace(/\.$/, "")} (${PROVENANCE_LABEL[d.provenance].toLowerCase()})`).join("; ")}`);
+    if (parts.length) prepare.push(`${e.name}: ${parts.join(". Also ")}.`);
+  }
+  if (prepare.length <= (lane === "Later" ? 1 : 0))
+    prepare.splice(0, prepare.length, `No mandatory controls or documented dependencies were identified for the ${lane} candidates; confirm against each blueprint before building.`);
+  const focusIds = new Set(focus.map((e) => e.id));
+  for (const d of shared) {
+    const n = d.workflows.filter((w) => !w.humanLed && focusIds.has(w.id)).length;
+    if (n >= 2 && prepare.length < 10) prepare.push(`Shared need across ${n} ${lane} candidates: ${d.action}`);
+  }
+
+  const restrictedNow = now.filter((e) => e.restrictions.length > 0);
+  const freeNow = now.filter((e) => !e.restrictions.length);
+  const pilot = lane === "Now"
+    ? [ ...(freeNow.length ? [`Pilot unrestricted Now candidates first (${names(freeNow)}), with human oversight and measured outcomes.`] : []),
+        ...(restrictedNow.length ? [`Pilot restricted candidates (${names(restrictedNow)}) only after their mandatory controls are in place and verified.`] : []) ]
+    : lane === "Next"
+      ? ["No pilot is proposed yet. Next candidates need the preparation above first; re-assess once prerequisites are addressed."]
+      : ["No pilot is proposed: all automation candidates are deferred (Later)."];
+  const expand = lane === "Later"
+    ? ["No expansion is proposed while all candidates are deferred. Re-assess when volume, action type, data access, controls or policy change."]
+    : ["Consider broader operation only after pilot validation criteria are met and controls remain effective.", "Re-assess workflows when volume, action type, data access or policy change."];
+  return { define, prepare, pilot, expand };
 }
