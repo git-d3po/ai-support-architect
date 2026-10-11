@@ -265,13 +265,13 @@ describe("portfolio and seed", () => {
   });
   it("stale and incomplete are excluded from aggregates", () => {
     const stale = items.map((x, idx) => (idx === 0 ? { ...x, status: deriveStatus(x.result, 1, 2) } : x));
-    expect(stale[0].status).toBe("stale");
+    expect(stale[0]!.status).toBe("stale");
     const s = summarize(stale, 18000);
     expect(s.assessedCount).toBe(14);
-    expect(s.candidates.some((c) => c.id === items[0].id)).toBe(false);
+    expect(s.candidates.some((c) => c.id === items[0]!.id)).toBe(false);
   });
   it("scoring version mismatch marks stale", () => {
-    expect(deriveStatus(items[0].result, 1, 1, "0.9.0")).toBe("stale");
+    expect(deriveStatus(items[0]!.result, 1, 1, "0.9.0")).toBe("stale");
   });
 });
 

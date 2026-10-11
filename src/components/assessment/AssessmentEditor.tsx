@@ -5,7 +5,7 @@ import { cn } from "@/lib/utils";
 
 const ORD: Ordinal[] = [0, 1, 2, 3, 4];
 
-function Segmented({ value, onChange, label, disabled }: { value: Ordinal | null | undefined; onChange: (v: Ordinal | null) => void; label: string; disabled?: boolean }) {
+function Segmented({ value, onChange, label, disabled }: { value: Ordinal | null | undefined; onChange: (v: Ordinal | null) => void; label: string; disabled?: boolean | undefined }) {
   return (
     <div role="radiogroup" aria-label={label} className="inline-flex overflow-hidden rounded border bg-card">
       {ORD.map((o) => (
@@ -148,7 +148,7 @@ export function AssessmentEditor({
   );
 }
 
-function TriState({ label, help, value, onChange, disabled, errors = [] }: { label: string; help?: string; value: boolean | null; onChange: (v: boolean | null) => void; disabled?: boolean; errors?: ValidationError[] }) {
+function TriState({ label, help, value, onChange, disabled, errors = [] }: { label: string; help?: string; value: boolean | null; onChange: (v: boolean | null) => void; disabled?: boolean | undefined; errors?: ValidationError[] }) {
   return (
     <div className="grid grid-cols-[1fr_auto] items-center gap-4 px-4 py-2.5">
       <div><div className="text-sm font-medium">{label}</div>{help && <p className="text-[11px] text-muted-foreground">{help}</p>}{value == null && <p className="text-[11px] text-model-none">Not provided</p>}<FieldErrors errors={errors} /></div>
