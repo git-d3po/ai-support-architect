@@ -8,7 +8,7 @@ The product is built with Lovable and uses a deterministic, versioned TypeScript
 
 **Status:** Published v1.0.0 portfolio release (11 October 2026). **[Try the live synthetic demo](https://ai-support-architect.lovable.app/)**.
 
-**Frozen application code:** [commit `3198568`](https://github.com/git-d3po/ai-support-architect/commit/31985682460e5a136a262087dbf340d4e2ab3cf7). Later documentation commits do not change the accepted software snapshot. The GitHub repository remains **private**; the public demo does not expose authenticated workspace data or grant access to the source.
+**Frozen application code:** [commit `3198568`](https://github.com/git-d3po/ai-support-architect/commit/31985682460e5a136a262087dbf340d4e2ab3cf7). Later documentation commits do not change the accepted software snapshot. The source is **publicly viewable** for review, without an open-source license (see [Source availability and authorship](#source-availability-and-authorship)); the public demo does not expose authenticated workspace data.
 
 ## Product tour and engineering evidence
 
@@ -117,4 +117,8 @@ The lightweight GitHub Actions workflow runs the unit/regression suite without p
 
 Changes pushed to the connected `main` branch synchronize with Lovable. Preserve published Git history; do not force-push, rewrite or squash existing pushed commits.
 
-**Built using Lovable**, with documented product requirements, deterministic domain architecture, safety restrictions, evaluation scenarios and implementation reviews. The repository remains private, and no open-source reuse license has been granted.
+## Source availability and authorship
+
+The source code is **publicly viewable** for technical review. **No open-source license has been granted**: viewing the code does not confer permission to copy, modify or redistribute it.
+
+**Built using Lovable.** Most application-code commits in the history are authored by Lovable's AI development agent (`gpt-engineer-app[bot]`). The project owner directed the work through documented product requirements, deterministic domain architecture, safety restrictions, evaluation scenarios and implementation reviews; the owner's own commits are mainly documentation, release and evidence work. The full development history, including generic intermediate commits, is preserved unedited.
